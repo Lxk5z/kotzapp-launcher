@@ -31,30 +31,93 @@
   </div>
 </header>
 
+<!-- 🔄 Ladebalken -->
+  <div id="loading-bar" class="loading-bar hidden">
+    <div class="loading-bar-inner"></div>
+  </div>
+</header>
+
 <!-- ===============================
      PROFILE SECTION
 ================================ -->
 
-<div class="profile-container">
-  <div class="profile-inner">
+<div class="profile-bg-wrapper">
 
-    <button class="settings-edit-btn" title="Profil bearbeiten">
-      <svg viewBox="0 0 24 24">
-        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm18-11.5a1 1 0 0 0 0-1.41l-1.34-1.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75L21 5.75z"/>
-      </svg>
-    </button>
+  <!-- 🎨 Background Layer -->
+  <div id="profileBackground" class="profile-background"></div>
 
-    <img id="profileImage" class="profile-picture">
+  <!-- 👤 Profil-Inhalt -->
+  <div class="profile-container profile-with-bg">
+    <div class="profile-inner">
 
-    <div class="profile-username">Alex</div>
+      <button class="settings-edit-btn" title="Profil bearbeiten">
+        <svg viewBox="0 0 24 24">
+         <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm18-11.5a1 1 0 0 0 0-1.41l-1.34-1.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75L21 5.75z"/>
+       </svg>
+      </button>
 
-    <div class="profile-rang rang-admin">Admin</div>
-    
-    <div class="profile-bio">Dies ist meine Bio! Hier kann ich etwas über mich erzählen.</div>
-
-    <button class="edit-button">Profil bearbeiten</button>
-
+     <img id="profileImage" class="profile-picture">
+     <div class="profile-username glass">Profil wird geladen...</div>
+     <div class="profile-rang glass"></div>
+     <div class="profile-bio glass"></div>
+    </div>
   </div>
+
+  <div class="profile-container">
+  <button class="edit-button">Profil bearbeiten</button>
+  </div>
+
+</div>
+
+<!-- ===============================
+     SETTINGS LISTE (Test lol)
+================================ -->
+
+<div>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
+  <li>q</li>
 </div>
 
 <!-- ===============================
@@ -109,6 +172,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap');
 </style>
 
-<script src="settings.js"></script>
+<script>
+  const script = document.createElement("script");
+  script.src = CDN_BASE + "/settings.js";
+  document.body.appendChild(script);
+</script>
 
 </html>
