@@ -18,13 +18,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KotzApp</title>
-</head>
-
-<body>
-
-  <div id="instant-loader"> 
-   <img src="icon-512.png" alt="Logo"> 
-  </div>
 
   <style>
   #instant-loader {
@@ -43,14 +36,22 @@
     border-radius: 7px;
   }
 </style>
+</head>
+
+<body>
+
+  <div id="instant-loader"> 
+   <img src="icon-512.png" alt="Logo"> 
+  </div>
 
   <script>
   window.addEventListener("load", () => {
-    const loader = document.getElementById("instant-loader");
+  setTimeout(() => {
     loader.style.opacity = "0";
     loader.style.transition = "opacity 0.3s ease";
     setTimeout(() => loader.remove(), 300);
-  });
+  }, 300);
+});
 </script>
 
   <!-- ===============================
@@ -67,10 +68,11 @@
     const visited = localStorage.getItem("kotzapp-visited");
 
     if (visited === "yes") {
-      // ⬅️ KEIN Splash mehr, direkt rein
-      window.location.replace("/chats.html");
-      return;
-    }
+  setTimeout(() => {
+    window.location.replace("/chats.html");
+  }, 100); // 100ms → Loader wird sichtbar
+  return;
+}
 
     // Erster Start
     setTimeout(() => {
