@@ -22,6 +22,37 @@
 
 <body>
 
+  <div id="instant-loader"> 
+   <img src="icon-512.png" alt="Logo"> 
+  </div>
+
+  <style>
+  #instant-loader {
+    position: fixed;
+    inset: 0;
+    background: #888; /* grauer Hintergrund */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  #instant-loader img {
+    width: 250px;
+    height: auto;
+    border-radius: 7px;
+  }
+</style>
+
+  <script>
+  window.addEventListener("load", () => {
+    const loader = document.getElementById("instant-loader");
+    loader.style.opacity = "0";
+    loader.style.transition = "opacity 0.3s ease";
+    setTimeout(() => loader.remove(), 300);
+  });
+</script>
+
   <!-- ===============================
        SPLASH SCREEN
   =============================== -->
