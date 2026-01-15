@@ -4,7 +4,7 @@
 <head>
 
   <script>
-  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@712e3f2";
+  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@b0123a5";
 </script>
 
   <link rel="icon" href="" id="favicon">
@@ -104,8 +104,8 @@
     document.getElementById("manifest").href = CDN_BASE + "/manifest.json";
 
     document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
-    document.getElementById("chatscss").href = /*CDN_BASE +*/ "/chats.css";
-    document.getElementById("stylecss").href = /*CDN_BASE + */"/style.css";
+    document.getElementById("chatscss").href = CDN_BASE + "/chats.css";
+    document.getElementById("stylecss").href = CDN_BASE + "/style.css";
 
     document.getElementById("headerLogo").src = CDN_BASE + "/images/logo-clean.png";
 
@@ -114,10 +114,10 @@
 
   </script>
 
-  <script src="chats.js">
-  // const script = document.createElement("script");
-  // script.src = CDN_BASE + "/chats.js";
-  // document.body.appendChild(script);
+  <script>
+  const script = document.createElement("script");
+  script.src = CDN_BASE + "/chats.js";
+  document.body.appendChild(script);
 </script>
 
 </body>
