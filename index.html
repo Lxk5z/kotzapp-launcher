@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <script>
+  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web";
+  </script>
+
+  <link rel="icon" href="" id="favicon">
+  <link rel="icon" type="image/png" sizes="32x32" href="" id="favicon32">
+  <link rel="apple-touch-icon" href="" id="appleicon">
+  <link rel="manifest" href="" id="manifest">
+
+  <link rel="stylesheet" href="" id="fontcss">
+  <link rel="stylesheet" href="" id="chatscss">
+  <link rel="stylesheet" href="" id="stylecss">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KotzApp</title>
+</head>
+
+<body>
+
+  <!-- ===============================
+       SPLASH SCREEN
+  =============================== -->
+  <div id="splash">
+    <img src="" id="icon512" id="splash-icon" alt="KotzApp Logo">
+    <div class="loader"></div>
+    <p class="loading-text">Lade KotzApp…</p>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const visited = localStorage.getItem("kotzapp-visited");
+
+    if (visited === "yes") {
+      // ⬅️ KEIN Splash mehr, direkt rein
+      window.location.replace("/chats.html");
+      return;
+    }
+
+    // Erster Start
+    setTimeout(() => {
+      document.getElementById("splash").style.opacity = "0";
+
+      setTimeout(() => {
+        localStorage.setItem("kotzapp-visited", "yes");
+        window.location.replace("/chats.html");
+      }, 400);
+    }, 800);
+  });
+
+  // ALLE LINKS HIER
+    document.getElementById("favicon").href = CDN_BASE + "/favicon.ico";
+    document.getElementById("favicon32").href = CDN_BASE + "/favicon-32.png";
+    document.getElementById("appleicon").href = CDN_BASE + "/apple-touch-icon.png";
+    document.getElementById("manifest").href = CDN_BASE + "/manifest.json";
+
+    document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
+    document.getElementById("chatscss").href = CDN_BASE + "/chats.css";
+    document.getElementById("stylecss").href = CDN_BASE + "/style.css";
+    document.getElementById("icon512").src = CDN_BASE + "/icon-512.png";
+
+</script>
+
+  <script>
+  const script = document.createElement("script");
+  script.src = CDN_BASE + "/main.js";
+  document.body.appendChild(script);
+  </script>
+
+</body>
+</html>
