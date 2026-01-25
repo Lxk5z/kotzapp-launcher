@@ -1,6 +1,6 @@
 self.skipWaiting();
 
-const CACHE_NAME = "kotzapp-1.1.21";
+const CACHE_NAME = "kotzapp-1.1.22";
 const CDN_BASE =
   "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@e90e0e0";
 const STATIC_ASSETS = [
@@ -20,6 +20,7 @@ const STATIC_ASSETS = [
   `${CDN_BASE}/main.js`,
   `${CDN_BASE}/chats.js`,
   `${CDN_BASE}/settings.js`,
+  "/vercel.json",
 
   // /FONTS
   `${CDN_BASE}/fonts/aclonica.css`,
