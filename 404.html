@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script>
+    window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@e90e0e0";
+    </script>
+
+    <link rel="icon" href="" id="favicon">
+    <link rel="icon" type="image/png" sizes="32x32" href="" id="favicon32">
+    <link rel="apple-touch-icon" href="" id="appleicon">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="stylesheet" href="" id="fontcss">
+    <link rel="stylesheet" href="" id="stylecss">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Seite nicht gefunden</title>
+
+</head>
+<body>
+    
+    <style> 
+        body { 
+            background: var(--menu-color-dark); 
+            color: var(--text-color); 
+            font-family: Arial, Helvetica, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            text-align: center; 
+        } 
+            
+        a { 
+            color: var(--accent-color-dark); 
+            text-decoration: none; 
+            margin-top: 20px; 
+            font-size: 1.2rem; 
+        } 
+
+        h1 { 
+            font-size: 3rem; 
+            margin-bottom: 10px; 
+            color: var(--accent-color);
+        }
+
+    </style>
+
+    <img src="" id="404icon">
+    <h1>404 – Diese Seite existiert nicht</h1> 
+    <p>Vielleicht hast du dich vertippt, der Link ist falsch oder er existiert nicht mehr.</p> 
+    <a href="/">Zurück zur Startseite</a>
+
+    <script>
+        document.getElementById("favicon").href = CDN_BASE + "/favicon.ico";
+        document.getElementById("favicon32").href = CDN_BASE + "/favicon-32.png";
+        document.getElementById("appleicon").href = CDN_BASE + "/apple-touch-icon.png";
+
+        document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
+        document.getElementById("stylecss").href = CDN_BASE + "/style.css";
+
+        document.getElementById("404icon").src = CDN_BASE + "/images/buddy/kotzapp-404.png";
+    </script>
+
+</body>
+
+</html>
