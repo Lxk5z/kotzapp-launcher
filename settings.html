@@ -403,18 +403,18 @@
     document.getElementById("manifest").href = CDN_BASE + "/manifest.json";
 
     document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
-    document.getElementById("settingscss").href = /*CDN_BASE + */"/settings.css";
-    document.getElementById("stylecss").href = /*CDN_BASE + */"/style.css";
+    document.getElementById("settingscss").href = CDN_BASE + "/settings.css";
+    document.getElementById("stylecss").href = CDN_BASE + "/style.css";
 
     document.getElementById("headerLogo").src = CDN_BASE + "/images/logo-clean.png";
     document.getElementById("profileImage").src = CDN_BASE + "/images/users/user1.png";
 
    </script>
 
-<script src = "settings.js";>
-  // const script = document.createElement("script");
-  // script.src = CDN_BASE + "/settings.js";
-  // document.body.appendChild(script);
+<script>
+  const script = document.createElement("script");
+  script.src = CDN_BASE + "/settings.js";
+  document.body.appendChild(script);
 </script>
 
 </body>
