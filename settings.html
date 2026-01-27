@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script>
+  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@e90e0e0";
+    </script>
+
+  <link rel="icon" href="" id="favicon">
+  <link rel="icon" type="image/png" sizes="32x32" href="" id="favicon32">
+  <link rel="apple-touch-icon" href="" id="appleicon">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="stylesheet" href="" id="fontcss">
+  <link rel="stylesheet" href="" id="settingscss">
+  <link rel="stylesheet" href="" id="stylecss">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KotzApp Einstellungen</title>
+</head>
+<body>
+
+<!-- ===============================
+     SETTINGS HEADER
+================================ -->
+<header class="settings-header">
+  <div class="settings-header-center">
+    <img id="headerLogo" alt="KotzApp Logo" class="settings-logo">
+    <span class="settings-title">Einstellungen</span>
+  </div>
+</header>
+
+<!-- 🔄 Ladebalken -->
+  <div id="loading-bar" class="loading-bar hidden">
+    <div class="loading-bar-inner"></div>
+  </div>
+</header>
+
+<!-- ===============================
+     PROFILE SECTION
+================================ -->
+
+<div class="profile-bg-wrapper">
+
+  <!-- 🎨 Background Layer -->
+  <div id="profileBackground" class="profile-background"></div>
+
+  <!-- 👤 Profil-Inhalt -->
+  <div class="profile-container profile-with-bg">
+    <div class="profile-inner">
+
+      <button class="settings-edit-btn" title="Profil bearbeiten">
+        <svg viewBox="0 0 24 24">
+         <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm18-11.5a1 1 0 0 0 0-1.41l-1.34-1.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75L21 5.75z"/>
+       </svg>
+      </button>
+
+     <img id="profileImage" class="profile-picture">
+     <div class="profile-username glass">Profil wird geladen...</div>
+     <div class="profile-rang glass"></div>
+     <div class="profile-bio glass"></div>
+    </div>
+  </div>
+
+  <div class="profile-container">
+  <button class="edit-button">Profil bearbeiten</button>
+  </div>
+
+</div>
+
+<!-- ============== PROFILE EDIT OVERLAY (NEU) ================= -->
+<div id="profileEditOverlay" class="edit-overlay hidden">
+
+  <!-- Hintergrund -->
+  <div class="edit-overlay-backdrop"></div>
+
+  <!-- Modal -->
+  <div class="edit-modal">
+    <div class="edit-modal-content">
+
+    <!-- Avatar -->
+    <div class="edit-avatar-wrapper">
+  <img id="editProfilePreview" class="edit-avatar" src="">
+  <div class="edit-avatar-button">Bearbeiten</div>
+  <input id="newProfileImage" type="file" accept="image/*" hidden>
+</div>
+
+   
+
+    <!-- Name -->
+    <div class="edit-field">
+  <label>Name</label>
+  <div class="name-input-wrapper">
+    <input id="newName" type="text" placeholder="Dein Name">
+    <div class="name-lock-overlay hidden"></div>
+  </div>
+  <div id="nameLockedInfo" class="name-locked-info hidden"></div>
+</div>
+
+
+    <!-- Info -->
+    <div class="edit-field bio-wrapper">
+      <label>Info</label>
+
+      <div class="bio-input-wrapper">
+        <textarea id="newDescription" maxlength="300" placeholder="Deine Info"></textarea>
+        <div id="bioCounter" class="bio-counter">0/300</div>
+      </div>
+    </div>
+
+    <!-- Hintergrund -->
+    <div class="edit-field">
+  <label>Hintergrund</label>
+
+  <!-- Hidden Input für Backend -->
+  <input id="newBackground" type="hidden" value="1">
+  <div class="bg-picker">
+    <!-- Left Arrow -->
+    <button class="bg-arrow" id="bgPrev">
+      <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="var(--text-color)">
+        <path d="m480-320 56-56-64-64h168v-80H472l64-64-56-56-160 160 160 160Zm0 240q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+      </svg>
+    </button>
+    <!-- Preview -->
+    <div class="bg-preview" id="bgPreview"></div>
+    <!-- Right Arrow -->
+    <button class="bg-arrow" id="bgNext">
+      <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="var(--text-color)">
+        <path d="m480-320 160-160-160-160-56 56 64 64H320v80h168l-64 64 56 56Zm0 240q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+      </svg>
+    </button>
+  </div>
+  <div class="bg-counter" id="bgCounter">1/30</div>
+</div>
+
+
+    <!-- Buttons -->
+    <div class="edit-actions">
+      <button id="saveProfileBtn" class="save-btn">Speichern</button>
+      <button id="cancelEditBtn" class="cancel-btn">Abbrechen</button>
+    </div>
+
+  </div>
+
+  <!-- 🔽 Bottom-Sheet Overlay (Blur) -->
+<div id="editBottomSheetOverlay" class="edit-bottomsheet-overlay hidden"></div>
+
+<!-- 🔽 Bottom-Sheet -->
+<div id="editBottomSheet" class="edit-bottomsheet hidden">
+
+  <!-- Galerie -->
+  <button id="sheetChoosePhoto" class="sheet-item">
+    <span class="sheet-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        <path d="M360-400h400L622-580l-92 120-62-80-108 140Zm-40 160q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z"/>
+      </svg>
+    </span>
+    <span class="sheet-text">Aus Galerie auswählen</span>
+  </button>
+
+  <!-- Kamera -->
+  <button id="sheetTakePhoto" class="sheet-item">
+    <span class="sheet-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        <path d="M440-440ZM120-120q-33 0-56.5-23.5T40-200v-480q0-33 23.5-56.5T120-760h126l74-80h240v80H355l-73 80H120v480h640v-360h80v360q0 33-23.5 56.5T760-120H120Zm640-560v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80ZM440-260q75 0 127.5-52.5T620-440q0-75-52.5-127.5T440-620q-75 0-127.5 52.5T260-440q0 75 52.5 127.5T440-260Zm0-80q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Z"/>
+      </svg>
+    </span>
+    <span class="sheet-text">Neues Foto aufnehmen</span>
+  </button>
+
+  <!-- Entfernen -->
+  <button id="sheetRemovePhoto" class="sheet-item danger">
+    <span class="sheet-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        <path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/>
+      </svg>
+    </span>
+    <span class="sheet-text">Entfernen</span>
+  </button>
+
+  <!-- Abbrechen -->
+  <button id="sheetCancel" class="sheet-item cancel">
+    <span class="sheet-text">Abbrechen</span>
+  </button>
+
+</div>
+
+</div>
+</div>
+
+
+
+<!-- ===============================
+     SETTINGS PANELS (3‑Level Navigation)
+================================ -->
+
+<div class="settings-panels">
+
+  <!-- ===============================
+       PANEL 1 – ROOT (Hauptkategorien)
+  ================================ -->
+  <div id="panel-root" class="settings-panel active">
+
+    <div class="settings-header-panel">
+      <span class="settings-header-title">Einstellungen</span>
+    </div>
+
+    <!-- 🔍 GLOBAL SEARCH FIELD (sichtbar im Root-Panel) -->
+    <div class="search-wrapper global-search">
+      <div class="search-container">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5
+                   6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79
+                   l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5
+                   S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z"/>
+        </svg>
+
+        <input type="text" placeholder="Suche" id="settingsSearchInput">
+
+        <span class="search-clear hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+            <path d="M18.3 5.71 12 12l6.3 6.29-1.42 1.42L10.59 13.4
+                     4.29 19.7 2.87 18.3 9.17 12 2.87 5.71 4.29 4.29
+                     10.59 10.6 16.88 4.3z"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="settings-list">
+
+      <!-- Allgemein -->
+      <button class="settings-btn-root" data-category="allgemein">
+        <span class="icon">
+          <svg viewBox="0 -960 960 960"><path d="M756-120 537-339l84-84 219 219-84 84Zm-552 0-84-84 276-276-68-68-28 28-51-51v82l-28 28-121-121 28-28h82l-50-50 142-142q20-20 43-29t47-9q24 0 47 9t43 29l-92 92 50 50-28 28 68 68 90-90q-4-11-6.5-23t-2.5-24q0-59 40.5-99.5T701-841q15 0 28.5 3t27.5 9l-99 99 72 72 99-99q7 14 9.5 27.5T841-701q0 59-40.5 99.5T701-561q-12 0-24-2t-23-7L204-120Z"/></svg>
+        </span>
+        <span class="label">Allgemein</span>
+        <span class="chevron">›</span>
+      </button>
+
+      <!-- Benachrichtigungen -->
+      <button class="settings-btn-root" data-category="benachrichtigungen">
+        <span class="icon">
+          <svg viewBox="0 -960 960 960"><path d="M480-489Zm0 409q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM160-200v-80h80v-280q0-84 50.5-149T422-793q-10 22-15.5 46t-7.5 49q-35 21-57 57t-22 81v280h320v-122q20 3 40 3t40-3v122h80v80H160Zm480-280-12-60q-12-5-22.5-10.5T584-564l-58 18-40-68 46-40q-2-13-2-26t2-26l-46-40 40-68 58 18q11-8 21.5-13.5T628-820l12-60h80l12 60q12 5 22.5 10.5T776-796l58-18 40 68-46 40q2 13 2 26t-2 26l46 40-40 68-58-18q-11 8-21.5 13.5T732-540l-12 60h-80Zm40-120q33 0 56.5-23.5T760-680q0-33-23.5-56.5T680-760q-33 0-56.5 23.5T600-680q0 33 23.5 56.5T680-600Z"/></svg>
+        </span>
+        <span class="label">Benachrichtigungen</span>
+        <span class="chevron">›</span>
+      </button>
+
+      <!-- Datenschutz -->
+      <button class="settings-btn-root" data-category="datenschutz">
+        <span class="icon">
+          <svg viewBox="0 -960 960 960"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg>
+        </span>
+        <span class="label">Datenschutz</span>
+        <span class="chevron">›</span>
+      </button>
+
+      <!-- Konto -->
+      <button class="settings-btn-root" data-category="konto">
+        <span class="icon">
+          <svg viewBox="0 -960 960 960"><path d="M420-680q0-33 23.5-56.5T500-760q33 0 56.5 23.5T580-680q0 33-23.5 56.5T500-600q-33 0-56.5-23.5T420-680ZM500 0 320-180l60-80-60-80 60-85v-47q-54-32-87-86.5T260-680q0-100 70-170t170-70q100 0 170 70t70 170q0 67-33 121.5T620-472v352L500 0ZM340-680q0 56 34 98.5t86 56.5v125l-41 58 61 82-55 71 75 75 40-40v-371q52-14 86-56.5t34-98.5q0-66-47-113t-113-47q-66 0-113 47t-47 113Z"/></svg>
+        </span>
+        <span class="label">Konto</span>
+        <span class="chevron">›</span>
+      </button>
+
+      <!-- Invite -->
+      <button class="settings-btn-root invite" data-category="invite">
+        <span class="icon">
+          <svg viewBox="0 -960 960 960"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
+        </span>
+        <span class="label">Zu KotzApp einladen</span>
+        <span class="chevron">›</span>
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ===============================
+       PANEL 2 – SUB (Unterkategorien)
+  ================================ -->
+  <div id="panel-sub" class="settings-panel">
+    <div class="settings-header-panel">
+      <button class="back-btn" data-back="root">‹</button>
+      <span class="settings-header-title" id="sub-title">Kategorie</span>
+    </div>
+
+    <div class="settings-list" id="sub-content"></div>
+  </div>
+
+
+  <!-- ===============================
+       PANEL SEARCH (Globale Suche)
+  ================================ -->
+<div id="panel-search" class="settings-panel">
+
+  <div class="settings-header-panel">
+    <button class="back-btn">‹</button>
+    <span class="settings-header-title">Suche</span>
+  </div>
+
+  <div class="settings-list" id="search-results"></div>
+</div>
+
+  <!-- ===============================
+       PANEL 3 – DETAIL (Einzelne Settings)
+  ================================ -->
+  <div id="panel-detail" class="settings-panel">
+    <div class="settings-header-panel">
+      <button class="back-btn" data-back="sub">‹</button>
+      <span class="settings-header-title" id="detail-title">Details</span>
+    </div>
+
+    <div class="settings-list" id="detail-content"></div>
+  </div>
+
+</div>
+
+<!-- ===============================
+     NAVIGATION BAR
+================================ -->
+
+   <nav>
+    <ul>
+        <li><a href="/chats.html">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e3e3e3"><path d="M880-80.67 720.67-240h-414q-27.5 0-47.09-19.58Q240-279.17 240-306.67v-66.66h440q27.5 0 47.08-19.59 19.59-19.58 19.59-47.08v-280h66.66q27.5 0 47.09 19.58Q880-680.83 880-653.33v572.66ZM146.67-441l65.66-65.67h401v-306.66H146.67V-441ZM80-280v-533.33q0-27.5 19.58-47.09Q119.17-880 146.67-880h466.66q27.5 0 47.09 19.58Q680-840.83 680-813.33v306.66q0 27.5-19.58 47.09Q640.83-440 613.33-440H240L80-280Zm66.67-226.67v-306.66 306.66Z"/></svg>
+            <span>Chats</span>
+        </a></li>
+
+        <li><a href="/apps.html">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e3e3e3"><path d="M286.67-286.67h146.66v-146.66H286.67v146.66Zm240 0h146.66v-146.66H526.67v146.66Zm-240-240h146.66v-146.66H286.67v146.66Zm240 0h146.66v-146.66H526.67v146.66ZM186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h586.66q27 0 46.84 19.83Q840-800.33 840-773.33v586.66q0 27-19.83 46.84Q800.33-120 773.33-120H186.67Zm0-66.67h586.66v-586.66H186.67v586.66Zm0-586.66v586.66-586.66Z"/></svg>
+            <span>Apps</span>
+        </a></li>
+
+        <li><a href="/support.html">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e3e3e3"><path d="m503.33-80-10-113.33h-30q-142.66 0-243-100.34Q120-394 120-536.67q0-142.66 100.67-243Q321.33-880 464.67-880q71 0 131.83 25.83 60.83 25.84 106.33 72 45.5 46.17 71.34 108.34Q800-611.67 800-538.67q0 69-21.17 136-21.16 67-60 126.67-38.83 59.67-93.66 109.67-54.84 50-121.84 86.33Zm60-120.67q78.34-66 124.17-155.16 45.83-89.17 45.83-182.84 0-119-76.83-196.83-76.83-77.83-191.83-77.83-116.34 0-197.17 80.83-80.83 80.83-80.83 195.83 0 115 80.83 195.84Q348.33-260 463.33-260h100v59.33Zm-99-108.33q16.34 0 27.67-11.33 11.33-11.34 11.33-27.67 0-16.33-11.33-27.67Q480.67-387 464.33-387q-16.33 0-27.66 11.33-11.34 11.34-11.34 27.67 0 16.33 11.34 27.67Q448-309 464.33-309Zm-27.66-133H490q0-26.67 7.67-41.67 7.66-15 36.33-43.66 24-24 35.33-46 11.34-22 11.34-47.34 0-47-31.84-74.83-31.83-27.83-81.5-27.83-42.66 0-74.66 22.83T346-640.67l49.33 20q9-23 26.67-36.83 17.67-13.83 43.33-13.83 29 0 44.84 14.66Q526-642 526-620q0 18.33-10.67 35.83-10.66 17.5-34 41.5-29.66 28.67-37.16 45.84-7.5 17.16-7.5 54.83ZM460-507Z"/></svg>
+            <span>Support</span>
+        </a></li>
+        
+        <li class="active"><a href="/settings.html">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e3e3e3"><path d="m382-80-18.67-126.67q-17-6.33-34.83-16.66-17.83-10.34-32.17-21.67L178-192.33 79.33-365l106.34-78.67q-1.67-8.33-2-18.16-.34-9.84-.34-18.17 0-8.33.34-18.17.33-9.83 2-18.16L79.33-595 178-767.67 296.33-715q14.34-11.33 32.34-21.67 18-10.33 34.66-16L382-880h196l18.67 126.67q17 6.33 35.16 16.33 18.17 10 31.84 22L782-767.67 880.67-595l-106.34 77.33q1.67 9 2 18.84.34 9.83.34 18.83 0 9-.34 18.5Q776-452 774-443l106.33 78-98.66 172.67-118-52.67q-14.34 11.33-32 22-17.67 10.67-35 16.33L578-80H382Zm55.33-66.67h85l14-110q32.34-8 60.84-24.5T649-321l103.67 44.33 39.66-70.66L701-415q4.33-16 6.67-32.17Q710-463.33 710-480q0-16.67-2-32.83-2-16.17-7-32.17l91.33-67.67-39.66-70.66L649-638.67q-22.67-25-50.83-41.83-28.17-16.83-61.84-22.83l-13.66-110h-85l-14 110q-33 7.33-61.5 23.83T311-639l-103.67-44.33-39.66 70.66L259-545.33Q254.67-529 252.33-513 250-497 250-480q0 16.67 2.33 32.67 2.34 16 6.67 32.33l-91.33 67.67 39.66 70.66L311-321.33q23.33 23.66 51.83 40.16 28.5 16.5 60.84 24.5l13.66 110Zm43.34-200q55.33 0 94.33-39T614-480q0-55.33-39-94.33t-94.33-39q-55.67 0-94.5 39-38.84 39-38.84 94.33t38.84 94.33q38.83 39 94.5 39ZM480-480Z"/></svg>
+            <span>Einstellungen</span>
+        </a></li>
+    </ul>
+   </nav>
+
+   <script>
+
+    // ====== ALLE LINKS HIER ======
+
+    document.getElementById("favicon").href = CDN_BASE + "/favicon.ico";
+    document.getElementById("favicon32").href = CDN_BASE + "/favicon-32.png";
+    document.getElementById("appleicon").href = CDN_BASE + "/apple-touch-icon.png";
+
+    document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
+    document.getElementById("settingscss").href = /*CDN_BASE + */"/settings.css";
+    document.getElementById("stylecss").href = /*CDN_BASE + */"/style.css";
+
+    document.getElementById("headerLogo").src = CDN_BASE + "/images/logo-clean.png";
+    document.getElementById("profileImage").src = CDN_BASE + "/images/users/user1.png";
+
+   </script>
+
+<script src = "settings.js";>
+  // const script = document.createElement("script");
+  // script.src = CDN_BASE + "/settings.js";
+  // document.body.appendChild(script);
+</script>
+
+</body>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap');
+</style>
+
+</html>
