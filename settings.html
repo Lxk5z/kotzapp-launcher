@@ -3,7 +3,7 @@
 <head>
 
     <script>
-  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@e90e0e0";
+  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@latest";
     </script>
 
   <link rel="icon" href="" id="favicon">
@@ -356,18 +356,18 @@
     document.getElementById("appleicon").href = CDN_BASE + "/apple-touch-icon.png";
 
     document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
-    document.getElementById("settingscss").href = /*CDN_BASE + */"/settings.css";
-    document.getElementById("stylecss").href = /*CDN_BASE + */"/style.css";
+    document.getElementById("settingscss").href = CDN_BASE + "/settings.css";
+    document.getElementById("stylecss").href = CDN_BASE + "/style.css";
 
     document.getElementById("headerLogo").src = CDN_BASE + "/images/logo-clean.png";
     document.getElementById("profileImage").src = CDN_BASE + "/images/users/user1.png";
 
    </script>
 
-<script src = "settings.js";>
-  // const script = document.createElement("script");
-  // script.src = CDN_BASE + "/settings.js";
-  // document.body.appendChild(script);
+<script>
+  const script = document.createElement("script");
+  script.src = CDN_BASE + "/settings.js";
+  document.body.appendChild(script);
 </script>
 
 </body>
