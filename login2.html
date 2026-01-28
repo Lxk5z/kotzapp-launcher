@@ -706,6 +706,14 @@ document.addEventListener("touchend", () => {
     lastSpan = null;
 });
 
+        // ====== Touch-Scrolling verhindern, wenn über den span-Kacheln gewischt wird ======
+const spanArea = document.querySelector("section");
+
+spanArea.addEventListener("touchmove", (e) => {
+    e.preventDefault(); // verhindert Scrollen
+}, { passive: false });
+
+
     </script>
     
     <script>
