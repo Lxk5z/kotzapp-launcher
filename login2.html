@@ -681,29 +681,33 @@
     });
 });
 
-    // ====== Touch-Hover für die span-Kacheln ======
+// ====== Touch-Hover für die span-Kacheln ======
 const spans = document.querySelectorAll("section span");
 
 function getSpanUnderTouch(touch) {
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-    return element && element.tagName === "SPAN" ? element : null;
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    return el && el.tagName === "SPAN" ? el : null;
 }
-
-let lastSpan = null;
 
 document.addEventListener("touchmove", (e) => {
     const touch = e.touches[0];
     const span = getSpanUnderTouch(touch);
 
-    if (span && span !== lastSpan) {
+    // Erst ALLE zurücksetzen
+    spans.forEach(s => s.classList.remove("touch-hover"));
+
+    // Wenn der Finger gerade über einem span ist → highlighten
+    if (span) {
         span.classList.add("touch-hover");
-        lastSpan = span;
     }
-});
+
+    // Scrollen verhindern
+    e.preventDefault();
+}, { passive: false });
 
 document.addEventListener("touchend", () => {
+    // Beim Loslassen ALLES entfernen
     spans.forEach(s => s.classList.remove("touch-hover"));
-    lastSpan = null;
 });
 
         // ====== Touch-Scrolling verhindern, wenn über den span-Kacheln gewischt wird ======
