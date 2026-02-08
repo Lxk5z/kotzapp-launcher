@@ -58,7 +58,7 @@ function generateUUID() {
 
     if (visited === "yes") {
       // ⬅️ KEIN Splash mehr, direkt rein
-      window.location.replace("/chats.html");  
+      window.location.replace("/chats");  
       return;
     }
 
@@ -68,7 +68,7 @@ function generateUUID() {
 
       setTimeout(() => {
         localStorage.setItem("kotzapp-visited", "yes");
-        window.location.replace("/chats.html");   
+        window.location.replace("/chats");   
       }, 400);
     }, 800);
   });
