@@ -176,9 +176,9 @@ function updateLogoDelayed() {
     // Neuen Timer setzen
     logoTimer = setTimeout(() => {
         if (body.classList.contains("slide")) {
-            logo.src = "/images/kotzapp-red.webp";
+            logo.src = CDN_BASE + "/images/kotzapp-red.webp";
         } else {
-            logo.src = "/images/kotzapp.webp";
+            logo.src = CDN_BASE + "/images/kotzapp.webp";
         }
         logoTimer = null;
     }, 619); // 1 Sekunde Delay
