@@ -1,6 +1,6 @@
 self.skipWaiting();
 
-const CACHE_NAME = "kotzapp-1.1.25";
+const CACHE_NAME = "kotzapp-1.1.3";
 const CDN_BASE =
   "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@latest";
 const STATIC_ASSETS = [
@@ -10,16 +10,22 @@ const STATIC_ASSETS = [
   "/index.html",
   "/chats.html",
   "/settings.html",
+  "/messenger.html",
+  "/login.html",
+  "/404.html",
 
   // CSS
   `${CDN_BASE}/style.css`,
   `${CDN_BASE}/chats.css`,
   `${CDN_BASE}/settings.css`,
+  `${CDN_BASE}/messenger.css`,
+  `${CDN_BASE}/login.css`,
 
   // JAVA-SCRIPT
   `${CDN_BASE}/main.js`,
   `${CDN_BASE}/chats.js`,
   `${CDN_BASE}/settings.js`,
+  `${CDN_BASE}/messenger.js`,
 
   // /FONTS
   `${CDN_BASE}/fonts/aclonica.css`,
