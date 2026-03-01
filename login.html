@@ -467,7 +467,7 @@ if (paramsTutorial.has("tutorial")) {
     console.warn("⚠️ Tutorial blocked: missing or invalid currently_account:", acc);
     try { localStorage.removeItem("currently_account"); } catch(e) {}
     // replace = verhindert Back-Button Chaos
-    window.location.replace("/login.html");
+    window.location.replace("/login");
   } else {
     console.log("🎓 Tutorial Mode detected (account OK)");
     const containerEl = document.getElementById("setPwContainer");
@@ -528,7 +528,7 @@ if (paramsTutorial.has("tutorial")) {
     // Wenn kein setup aktiv → redirect (nur auf "saubere" URL ohne params)
     if (!inSetup) {
         // replace statt href, damit Back-Button sauberer ist
-        window.location.replace("/chats.html");
+        window.location.replace("/chats");
     }
 })();
 
@@ -964,7 +964,7 @@ if (hasError) {
 
         saveSession(res.username);
         updateActivity();
-        window.location.href = "/index.html";
+        window.location.href = "/";
     });
 }
 
@@ -1584,7 +1584,7 @@ backdrop.addEventListener("click",()=>{
 
 // ✅ überspringen → redirect
 confirmBtn.addEventListener("click",()=>{
-    window.location.href="/index.html";
+    window.location.href="/index";
 });
 
 /* ======= SetPw small UX enhancements:
@@ -1705,15 +1705,15 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("favicon").href = CDN_BASE + "/favicon.ico";
         document.getElementById("favicon32").href = CDN_BASE + "/favicon-32.png";
         document.getElementById("appleicon").href = CDN_BASE + "/apple-touch-icon.png";
-        document.getElementById("kotzapp").src = /*CDN_BASE +*/ "/images/kotzapp.webp";
-        document.getElementById("kotzapplock").src = /*CDN_BASE +*/ "/images/buddy/kotzapp-lock.webp";
+        document.getElementById("kotzapp").src = CDN_BASE + "/images/kotzapp.webp";
+        document.getElementById("kotzapplock").src = CDN_BASE + "/images/buddy/kotzapp-lock.webp";
 
         document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
-        document.getElementById("logincss").href = /*CDN_BASE +*/ "/login.css";
-        document.getElementById("stylecss").href = /*CDN_BASE + */"/style.css";
-        document.getElementById("textWillkommen").src = /*CDN_BASE +*/ "/images/login/text-willkommen.webp";
-        document.getElementById("willkommenBudy").src = /*CDN_BASE +*/ "/images/login/willkommenBuddy.apng";
-        document.getElementById("setpasswordGIF").src = /*CDN_BASE +*/ "/images/login/set-password.apng";
+        document.getElementById("logincss").href = CDN_BASE + "/login.css";
+        document.getElementById("stylecss").href = CDN_BASE + "/style.css";
+        document.getElementById("textWillkommen").src = CDN_BASE + "/images/login/text-willkommen.webp";
+        document.getElementById("willkommenBudy").src = CDN_BASE + "/images/login/willkommenBuddy.apng";
+        document.getElementById("setpasswordGIF").src = CDN_BASE + "/images/login/set-password.apng";
     </script>
 
     <style>
