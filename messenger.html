@@ -100,7 +100,11 @@
     document.getElementById("stylecss").href = CDN_BASE + "/style.css";
   </script>
 
-  <script src="/messenger.js"></script>
+  <script>
+      const script = document.createElement("script");
+      script.src = CDN_BASE + "/messenger.js";
+      document.body.appendChild(script);
+  </script>
 
    <style>
         @import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
