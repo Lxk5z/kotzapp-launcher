@@ -134,7 +134,7 @@ function resolveCurrentUserId() {
   window.CURRENT_USER_ID = resolveCurrentUserId();
 } catch (err) {
   console.warn("Kein Account → redirect zum Login");
-  window.location.href = "/login.html";
+  window.location.href = "/login";
 }
   }
 
@@ -149,7 +149,7 @@ function resolveCurrentUserId() {
 
     if (visited === "yes") {
       // ⬅️ KEIN Splash mehr, direkt rein
-      window.location.replace("/chats.html");  
+      window.location.replace("/chats");  
       return;
     }
 
@@ -159,7 +159,7 @@ function resolveCurrentUserId() {
 
       setTimeout(() => {
         // localStorage.setItem("kotzapp-visited", "yes");
-        window.location.replace("/chats.html");   
+        window.location.replace("/chats");   
       }, 400);
     }, 800);
   });
