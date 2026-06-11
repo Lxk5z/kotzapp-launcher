@@ -4,7 +4,7 @@ const CACHE_NAME = "kotzapp-1.0";
 const CDN_BASE =
   "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@latest";
 const STATIC_ASSETS = [
-  "/",
+  "/", 
 
   // HTML
   "/index.html",
