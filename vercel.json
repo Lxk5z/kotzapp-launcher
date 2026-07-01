@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/chats", "destination": "/messenger.html?CLASS" },
+    { "source": "/einstellungen", "destination": "/messenger.html?CLASS" },
+    { "source": "/support", "destination": "/messenger.html?CLASS" },
+    { "source": "/messenger", "destination": "/messenger.html?CLASS" },
+    { "source": "/apps", "destination": "/messenger.html?CLASS" },
+    { "source": "/", "destination": "/messenger.html?CLASS" },
+    { "source": "/login", "destination": "/messenger.html?CLASS" }
+  ]
+}
