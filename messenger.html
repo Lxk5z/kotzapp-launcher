@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+
+    <script>
+  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@latest";
+    </script>
+
+  <link rel="icon" href="" id="favicon">
+  <link rel="icon" type="image/png" sizes="32x32" href="" id="favicon32">
+  <link rel="apple-touch-icon" href="" id="appleicon">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="stylesheet" href="" id="fontcss">
+  <link rel="stylesheet" href="" id="messengercss">
+  <link rel="stylesheet" href="" id="stylecss">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KotzApp Messenger</title>
+
+
+     <script type="application/
+ ld+json">
+ {
+   "@context": "https://
+ schema.org",
+   "@type":  
+ "DiscussionForum",
+   "name": "KotzApp",
+   "url": "https://
+ kotzapp.vercel.app",
+   "genre": ["Kommunikation",  
+ "Bildung", "Spiele", 
+ "Unterhaltung"],
+   "description": "Chat-
+ Plattform für Bildung, Spiele 
+ und Unterhaltung"
+}
+</script>
+
+</head>
+<body>
+  <div id="page-transition-overlay"></div>
+
+  <script>
+      // ======= START CODE =======
+      const scriptMain = document.createElement("script");
+      scriptMain.src = CDN_BASE + "/main.js";
+      document.body.appendChild(scriptMain);
+    </script>
+
+    <script>
+      // ======= ONLINE PING =======
+      const scriptOnlinePing = document.createElement("script");
+      scriptOnlinePing.src = CDN_BASE + "/online-ping.js";
+      document.body.appendChild(scriptOnlinePing);
+    </script>
+    
+
+
+
+    <div class="chat-bg"></div>
+    <div class="black-bg-filter" style="width:100%; height:100%; background-color:rgba(0, 0, 0, 0.348);"></div>
+
+
+
+
+  <!-- HEADER BEREICH -->
+  <div class="header">
+    <div class="header-particles"></div>
+    <div class="header-content">
+
+      <!-- NEUER KLICK-BEREICH -->
+      <div class="click-area">
+
+        <div class="left-block">
+          <img class="profile-image" src="" id="profileImage" alt="Profilbild">
+
+          <div class="user-info">
+            <h1 class="username">Lade...</h1>
+            <p class="info-description"></p>
+          </div>
+        </div>
+
+        <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+          <path d="M440-280h80v-240h-80v240Zm68.5-331.5Q520-623 520-640t-11.5-28.5Q497-680 480-680t-28.5 11.5Q440-657 440-640t11.5 28.5Q463-600 480-600t28.5-11.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+        </svg> 
+
+      </div>
+  </div>
+</div>
+
+<!-- THEME DROPDOWN -->
+<div id="theme-dropdown" class="theme-dropdown">
+  <div class="theme-dropdown-content">
+    <label class="theme-row" for="theme-color-input">
+      <div id="theme-color-preview" class="theme-preview-square"></div>
+      <span class="theme-label">Akzent Farbe</span>
+      <div class="theme-edit-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+      </div>
+      <input type="color" id="theme-color-input" class="hidden-color-input" tabindex="-1">
+    </label>
+    <label class="theme-row" for="text-color-input">
+      <div id="text-color-preview" class="text-preview-square"></div>
+      <span class="theme-label">Schriftfarbe</span>
+      <div class="theme-edit-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+      </div>
+      <input type="color" id="text-color-input" class="hidden-color-input" tabindex="-1">
+    </label>
+    <div class="theme-row" id="logoutRow">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#db0000" style="margin-top:10px;"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+      <span class="theme-label red-logout" id="logoutBtn">Ausloggen</span>
+    </div>
+  </div>
+</div>
+
+<div id="floating-date-badge" class="floating-date-badge hidden"></div>
+
+<!-- CHAT INHALT -->
+<div class="chat-content">
+  <!-- Pull-to-Refresh Loader am Ende -->
+  <div id="pull-up-loader-container" class="pull-up-loader-container">
+    <div class="pull-up-loader"></div>
+  </div>
+</div>
+
+<div id="imagePreviewOverlay" class="image-preview-overlay" aria-hidden="true">
+  <div class="image-preview-card" role="dialog" aria-modal="true">
+    <img id="imagePreviewMedia" src="" alt="Vollbildansicht" />
+    <div class="image-preview-actions">
+      <button id="imagePreviewSave" class="image-preview-btn" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+        <span>Sichern</span>
+      </button>
+      <button id="imagePreviewCopy" class="image-preview-btn" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
+        <span>Kopieren</span>
+      </button>
+    </div>
+  </div>
+  <button id="imagePreviewClose" class="image-preview-close" aria-label="Vorschau schließen">
+    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#e3e3e3"><path d="M270-240 480-450 690-240l50-50-210-210 210-210-50-50-210 210-210-210-50 50 210 210-210 210 50 50Z"/></svg>
+  </button>
+</div>
+
+
+<!-- RUNTER SCROLLEN -->
+ <button id="scrollToBottomBtn" class="scroll-bottom-btn" aria-label="Nach unten scrollen">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+    <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/>
+  </svg>
+</button>
+
+<!-- ANHÄNGE BEREICH (SLIDING DRAWER) -->
+<div id="attachment-drawer" class="attachment-drawer">
+  <div class="drawer-inner">
+    <div class="drawer-item" data-action="fotos">
+      <div class="drawer-oval oval-fotos">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#0095ff">
+          <path d="M360-400h400L622-580l-92 120-62-80-108 140Zm-40 160q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z"/>
+        </svg>
+      </div>
+      <span class="drawer-label">Fotos</span>
+    </div>
+    <div class="drawer-item" data-action="kamera">
+      <div class="drawer-oval oval-kamera">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="var(--drawer-camera-svg)">
+          <path d="M480-260q75 0 127.5-52.5T660-440q0-75-52.5-127.5T480-620q-75 0-127.5 52.5T300-440q0 75 52.5 127.5T480-260Zm0-80q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM160-120q-33 0-56.5-23.5T80-200v-480q0-33 23.5-56.5T160-760h126l74-80h240l74 80h126q33 0 56.5 23.5T880-680v480q0 33-23.5 56.5T800-120H160Zm0-80h640v-480H638l-73-80H395l-73 80H160v480Zm320-240Z"/>
+        </svg>
+      </div>
+      <span class="drawer-label">Kamera</span>
+    </div>
+    <div class="drawer-item" data-action="dokument">
+      <div class="drawer-oval oval-dokument">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#26b556">
+          <path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/>
+        </svg>
+      </div>
+      <span class="drawer-label">Dokument</span>
+    </div>
+    <div class="drawer-item" data-action="abstimmung">
+      <div class="drawer-oval oval-abstimmung">
+        <svg width="28px" height="24px" viewBox="0 0 75.000099 63" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <g id="layer1" transform="translate(-49.999896,-76.999998)">
+            <rect style="fill:#ffbb00;stroke-width:15.6122" id="rect1" width="60" height="17" x="50" y="77" ry="9.6333332" />
+            <rect style="fill:#ffbb00;stroke-width:15.6122" id="rect1-9" width="50" height="17" x="50" y="123" ry="9.6333323" />
+            <rect style="fill:#ffbb00;stroke-width:14.665" id="rect1-0" width="75" height="17" x="50" y="100" ry="8.5" />
+          </g>
+        </svg>
+      </div>
+      <span class="drawer-label">Abstimmung</span>
+    </div>
+  </div>
+</div>
+
+<!-- TASTATUR BEREICH -->
+<div class="input-content">
+  <div id="not-available-notice" class="not-available-notice">Dieses Feature ist leider noch nicht verfügbar :(</div>
+  <button id="addToggleBtn" class="add-toggle-btn" aria-label="Aktionen / Tastatur">
+    <!-- Plus Icon -->
+    <svg class="add-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+    <!-- Keyboard Icon -->
+    <svg class="keyboard-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-200q-33 0-56.5-23.5T80-280v-400q0-33 23.5-56.5T160-760h640q33 0 56.5 23.5T880-680v400q0 33-23.5 56.5T800-200H160Zm0-80h640v-400H160v400Zm160-40h320v-80H320v80ZM200-440h80v-80h-80v80Zm120 0h80v-80h-80v80Zm120 0h80v-80h-80v80Zm120 0h80v-80h-80v80Zm120 0h80v-80h-80v80ZM200-560h80v-80h-80v80Zm120 0h80v-80h-80v80Zm120 0h80v-80h-80v80Zm120 0h80v-80h-80v80Zm120 0h80v-80h-80v80ZM160-280v-400 400Z"/></svg>
+  </button>
+
+  <div class="tastatur-field">
+    <!-- Pill input -->
+    <div class="input-pill" id="inputPill">
+      <div id="inputHighlighter" class="input-highlighter"></div>
+      <textarea 
+        id="messageInput" 
+        rows="1" 
+        placeholder="Nachricht schreiben..." 
+        autocomplete="off" 
+        autocorrect="off" 
+        spellcheck="false" 
+        enterkeyhint="send"></textarea>
+      <button id="stickerBtn" class="icon-btn sticker-btn" aria-label="Sticker">
+        <svg class="sticker-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M460-360q69 0 120-45t60-113l-320 90q26 32 62 50t78 18ZM294-510l106-30q4-28-14-49t-46-21q-25 0-42.5 17.5T280-550q0 11 4 21t10 19Zm240-70 106-30q5-28-13.5-49T580-680q-25 0-42.5 17.5T520-620q0 11 4 21t10 19Zm106 460H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v440L640-120Zm-40-80v-80q0-33 23.5-56.5T680-360h80v-400H200v560h400Zm0 0Zm-400 0v-560 560Z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  
+
+  <!-- Mic / Send button (JS toggled) -->
+  <button id="micSendBtn" class="mic-send-btn" aria-label="Senden / Mikrofon">
+  <!-- Mic Icon -->
+  <svg class="mic-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+    <path d="M395-435q-35-35-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35q-50 0-85-35Zm85-205Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm68.5-371.5Q520-503 520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480q17 0 28.5-11.5Z"/>
+  </svg>
+
+  <!-- Send Icon -->
+  <svg class="send-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 535.5 535.5">
+    <g id="send">
+      <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"/>
+    </g>
+  </svg>
+</button>
+</div>
+
+
+<!-- ================================================================= -->
+    <!-- START OF COPY-PASTEABLE LOADING SCREEN -->
+    <!-- ================================================================= -->
+    <div id="loader-overlay" class="loader-overlay">
+      <div class="loader-main-container">
+        <div class="loader-main"></div>
+        <div id="loader-text" class="loader-text">Inhalt wird gesucht...</div>
+      </div>
+      
+      <div id="loader-warn-box" class="loader-warn-box">
+        <div class="loader-warn"></div>
+        <div class="loader-warn-content">
+          <div class="loader-warn-title">Hinweis</div>
+          <div class="loader-warn-text">Das dauert länger als gewöhnlich...</div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+
+      @media (prefers-color-scheme: dark) {
+       :root {
+        --menu-loading-1: #191919;
+        --menu-loading-2: #000000;
+        --bounce-loader-color: #ffffff;
+        --loader-accent-color: #00e836;
+        --loader-text-color: #e5e7eb;
+       }
+      }
+      @media (prefers-color-scheme: light) {
+       :root {
+        --menu-loading-1: #ffffff;
+        --menu-loading-2: #dddddd;
+        --bounce-loader-color: #404040;
+        --loader-accent-color: #00C853;
+        --loader-text-color: #111111;
+       }
+      }
+
+      /* Loader Overlay Styles */
+      .loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(circle at center, var(--menu-loading-1) 0%, var(--menu-loading-2) 100%);
+        z-index: 2147483647; /* Maximum possible z-index to stay on top of everything */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .loader-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      /* Main Loader (Template 1) */
+      .loader-main {
+        position: relative;
+        width: 164px;
+        height: 164px;
+      }
+
+      .loader-main::before,
+      .loader-main::after {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-color: var(--bounce-loader-color);
+        left: 50%;
+        top: 50%;
+        animation: rotate 1s ease-in infinite;
+      }
+
+      .loader-main::after {
+        width: 20px;
+        height: 20px;
+        background-color: var(--loader-accent-color);
+        animation: rotate 1s ease-in infinite, moveY 1s ease-in infinite;
+      }
+
+      @keyframes moveY {
+        0%, 100% { top: 10%; }
+        45%, 55% { top: 59%; }
+        60% { top: 40%; }
+      }
+
+      @keyframes rotate {
+        0% { transform: translate(-50%, -100%) rotate(0deg) scale(1, 1); }
+        25% { transform: translate(-50%, 0%) rotate(180deg) scale(1, 1); }
+        45%, 55% { transform: translate(-50%, 100%) rotate(180deg) scale(3, 0.5); }
+        60% { transform: translate(-50%, 100%) rotate(180deg) scale(1, 1); }
+        75% { transform: translate(-50%, 0%) rotate(270deg) scale(1, 1); }
+        100% { transform: translate(-50%, -100%) rotate(360deg) scale(1, 1); }
+      }
+
+      /* Warning Loader (Template 2) */
+      .loader-warn {
+        position: relative;
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        box-sizing: border-box;
+        background: #fff;
+        border: 8px solid #131a1d;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .loader-warn::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -50%;
+        width: 100%;
+        height: 100%;
+        background: #263238;
+        z-index: 5;
+        border-bottom: 8px solid #131a1d;
+        box-sizing: border-box;
+        animation: eyeShade 3s infinite;
+      }
+
+      .loader-warn::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        bottom: 15px;
+        width: 32px;
+        z-index: 2;
+        height: 32px;
+        background: #111;
+        border-radius: 50%;
+        animation: eyeMove 3s infinite;
+      }
+
+      @keyframes eyeShade {
+        0% { transform: translateY(0); }
+        20% { transform: translateY(5px); }
+        40%, 50% { transform: translateY(-5px); }
+        60% { transform: translateY(-8px); }
+        75% { transform: translateY(5px); }
+        100% { transform: translateY(10px); }
+      }
+
+      @keyframes eyeMove {
+        0% { transform: translate(0, 0); }
+        20% { transform: translate(0px, 5px); }
+        40%, 50% { transform: translate(0px, -5px); }
+        60% { transform: translate(-10px, -5px); }
+        75% { transform: translate(-20px, 5px); }
+        100% { transform: translate(0, 10px); }
+      }
+
+      /* Text & Warning Box Styling */
+      .loader-text {
+        font-family: 'Play', system-ui, -apple-system, sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--loader-text-color);
+        text-align: center;
+        transition: opacity 0.15s ease;
+        min-height: 30px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      }
+
+      .loader-warn-box {
+        position: absolute;
+        bottom: -120px; /* Start offscreen */
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+        border: 2px solid #ca8a04;
+        color: #1e293b;
+        padding: 12px 20px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 15px rgba(253, 224, 71, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        width: 380px;
+        max-width: 90%;
+        box-sizing: border-box;
+        transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 10;
+      }
+
+      .loader-warn-box.show {
+        bottom: 24px; /* Slide into view */
+      }
+
+      .loader-warn-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .loader-warn-title {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #854d0e;
+      }
+
+      .loader-warn-text {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: #1e293b;
+      }
+    </style>
+
+    <script>
+      (function() {
+        // ==========================================
+        // CONFIGURATION (Adjust these for other pages)
+        // ==========================================
+        // Substring patterns of styles and scripts to wait for.
+        const REQUIRED_RESOURCES = ['messenger.css', 'style.css', 'main.js', 'messenger.js'];
+        const WARNING_TIMEOUT_MS = 7000;
+        const TEXT_ROTATION_MS = 3000;
+        const SIMULATE_DELAY_MS = 0; // TESTEN: Setze auf einen Wert > 0 (z.B. 10000 für 10s), um eine Verzögerung zu simulieren. Setze auf 0 für produktive Verwendung.
+        const MESSAGES = [
+          "Inhalt wird gesucht...",
+          "Server wird wach...",
+          "Pixel werden sortiert...",
+          "Code wird gezaubert...",
+          "Cookies werden gebacken...",
+          "Daten werden geordnet...",
+          "Staub wird gewischt...",
+          "Schrift wird hübsch...",
+          "Bugs werden gejagt..."
+        ];
+        // ==========================================
+
+        const overlay = document.getElementById('loader-overlay');
+        const textEl = document.getElementById('loader-text');
+        const warnBox = document.getElementById('loader-warn-box');
+
+        // Create a tracking map for state
+        const tracked = {};
+        REQUIRED_RESOURCES.forEach(res => {
+          tracked[res] = { element: null, loaded: false };
+        });
+
+        let finished = false;
+
+        // Check if everything is loaded
+        function checkFinished() {
+          if (finished) return;
+          const allLoaded = REQUIRED_RESOURCES.every(res => tracked[res].loaded);
+          if (allLoaded) {
+            if (SIMULATE_DELAY_MS > 0) {
+              // Künstliche Verzögerung für Testzwecke simulieren
+              setTimeout(() => {
+                if (finished) return;
+                finished = true;
+                cleanup();
+              }, SIMULATE_DELAY_MS);
+            } else {
+              finished = true;
+              cleanup();
+            }
+          }
+        }
+
+        // Hide loader and clean up timers/listeners
+        function cleanup() {
+          clearInterval(textTimer);
+          clearTimeout(warnTimer);
+          if (observer) observer.disconnect();
+
+          if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.visibility = 'hidden';
+            setTimeout(() => {
+              overlay.remove(); // Remove from DOM after transition
+            }, 200);
+          }
+        }
+
+        // Mark single resource as loaded and check
+        function markLoaded(resName) {
+          if (tracked[resName]) {
+            tracked[resName].loaded = true;
+            console.log(`[Loader] Loaded: ${resName}`);
+            checkFinished();
+          }
+        }
+
+        // Bind event listeners to DOM node
+        function bindElement(resName, element) {
+          if (tracked[resName].element) return; // Already tracking this element
+          tracked[resName].element = element;
+
+          const onLoad = () => {
+            element.removeEventListener('load', onLoad);
+            element.removeEventListener('error', onError);
+            markLoaded(resName);
+          };
+
+          const onError = () => {
+            element.removeEventListener('load', onLoad);
+            element.removeEventListener('error', onError);
+            console.warn(`[Loader] Error loading: ${resName}`);
+            markLoaded(resName); // Keep page working even if resource fails
+          };
+
+          element.addEventListener('load', onLoad);
+          element.addEventListener('error', onError);
+        }
+
+        // Match a script/link node to targets
+        function checkElement(element) {
+          if (!element || (element.tagName !== 'SCRIPT' && element.tagName !== 'LINK')) return;
+          
+          const url = element.getAttribute(element.tagName === 'SCRIPT' ? 'src' : 'href');
+          if (!url) return;
+
+          REQUIRED_RESOURCES.forEach(res => {
+            if (!tracked[res].element && url.includes(res)) {
+              bindElement(res, element);
+            }
+          });
+        }
+
+        // Initial DOM scan for elements already parsed
+        function scanDOM() {
+          document.querySelectorAll('script, link').forEach(checkElement);
+        }
+
+        // MutationObserver to capture dynamically created scripts or modified attributes
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach(mutation => {
+            if (mutation.type === 'childList') {
+              mutation.addedNodes.forEach(node => {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                  checkElement(node);
+                  if (node.tagName !== 'SCRIPT' && node.tagName !== 'LINK') {
+                    node.querySelectorAll('script, link').forEach(checkElement);
+                  }
+                }
+              });
+            } else if (mutation.type === 'attributes') {
+              checkElement(mutation.target);
+            }
+          });
+        });
+
+        observer.observe(document.documentElement, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['src', 'href']
+        });
+
+        // Run initial scan
+        scanDOM();
+        checkFinished(); // Run immediately in case list is empty or already cached
+
+        // --- TIMERS & ROTATIONS ---
+        // Rotate messages randomly without consecutive repeats
+        let currentText = textEl ? textEl.textContent : '';
+        const textTimer = setInterval(() => {
+          if (!textEl) return;
+          const filtered = MESSAGES.filter(msg => msg !== currentText);
+          const nextText = filtered[Math.floor(Math.random() * filtered.length)];
+          currentText = nextText;
+
+          textEl.style.opacity = '0';
+          setTimeout(() => {
+            textEl.textContent = nextText;
+            textEl.style.opacity = '1';
+          }, 150);
+        }, TEXT_ROTATION_MS);
+
+        // Warning notification timer
+        const warnTimer = setTimeout(() => {
+          if (warnBox) {
+            warnBox.classList.add('show');
+          }
+        }, WARNING_TIMEOUT_MS);
+
+      })();
+    </script>
+    <!-- ================================================================= -->
+    <!-- END OF COPY-PASTEABLE LOADING SCREEN -->
+    <!-- ================================================================= -->
+
+
+
+  <script>
+    // ====== ALLE LINKS HIER ======
+
+    document.getElementById("favicon").href = CDN_BASE + "/favicon.ico";
+    document.getElementById("favicon32").href = CDN_BASE + "/favicon-32.png";
+    document.getElementById("appleicon").href = CDN_BASE + "/apple-touch-icon.png";
+
+    document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
+    document.getElementById("messengercss").href = CDN_BASE + "/messenger.css";
+    document.getElementById("stylecss").href = CDN_BASE + "/style.css";
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+  const script3 = document.createElement("script");
+  script3.src = CDN_BASE + "/messenger.js";
+  document.body.appendChild(script3);
+  </script>
+
+
+</body>
+</html>

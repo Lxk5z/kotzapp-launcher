@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+    <script>
+    window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@latest";
+    </script>
+
+    <link rel="icon" href="" id="favicon">
+    <link rel="icon" type="image/png" sizes="32x32" href="" id="favicon32">
+    <link rel="apple-touch-icon" href="" id="appleicon">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="stylesheet" href="" id="fontcss">
+    <link rel="stylesheet" href="" id="logincss">
+    <link rel="stylesheet" href="" id="stylecss">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KotzApp Login</title>
+
+
+     <script type="application/
+ ld+json">
+ {
+   "@context": "https://
+ schema.org",
+   "@type":  
+ "DiscussionForum",
+   "name": "KotzApp",
+   "url": "https://
+ kotzapp.vercel.app",
+   "genre": ["Kommunikation",  
+ "Bildung", "Spiele", 
+ "Unterhaltung"],
+   "description": "Chat-
+ Plattform für Bildung, Spiele 
+ und Unterhaltung"
+}
+</script>
+
+</head>
+<body>
+    <div id="page-transition-overlay"></div>
+
+    <!-- ================================================================= -->
+    <!-- START OF COPY-PASTEABLE LOADING SCREEN -->
+    <!-- ================================================================= -->
+    <div id="loader-overlay" class="loader-overlay">
+      <div class="loader-main-container">
+        <div class="loader-main"></div>
+        <div id="loader-text" class="loader-text">Inhalt wird gesucht...</div>
+      </div>
+      
+      <div id="loader-warn-box" class="loader-warn-box">
+        <div class="loader-warn"></div>
+        <div class="loader-warn-content">
+          <div class="loader-warn-title">Hinweis</div>
+          <div class="loader-warn-text">Das dauert länger als gewöhnlich...</div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+
+      @media (prefers-color-scheme: dark) {
+       :root {
+        --menu-loading-1: #191919;
+        --menu-loading-2: #000000;
+        --bounce-loader-color: #ffffff;
+        --loader-accent-color: #00e836;
+        --loader-text-color: #e5e7eb;
+       }
+      }
+      @media (prefers-color-scheme: light) {
+       :root {
+        --menu-loading-1: #ffffff;
+        --menu-loading-2: #dddddd;
+        --bounce-loader-color: #404040;
+        --loader-accent-color: #00C853;
+        --loader-text-color: #111111;
+       }
+      }
+
+      /* Loader Overlay Styles */
+      .loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(circle at center, var(--menu-loading-1) 0%, var(--menu-loading-2) 100%);
+        z-index: 2147483647; /* Maximum possible z-index to stay on top of everything */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .loader-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      /* Main Loader (Template 1) */
+      .loader-main {
+        position: relative;
+        width: 164px;
+        height: 164px;
+      }
+
+      .loader-main::before,
+      .loader-main::after {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-color: var(--bounce-loader-color);
+        left: 50%;
+        top: 50%;
+        animation: rotate 1s ease-in infinite;
+      }
+
+      .loader-main::after {
+        width: 20px;
+        height: 20px;
+        background-color: var(--loader-accent-color);
+        animation: rotate 1s ease-in infinite, moveY 1s ease-in infinite;
+      }
+
+      @keyframes moveY {
+        0%, 100% { top: 10%; }
+        45%, 55% { top: 59%; }
+        60% { top: 40%; }
+      }
+
+      @keyframes rotate {
+        0% { transform: translate(-50%, -100%) rotate(0deg) scale(1, 1); }
+        25% { transform: translate(-50%, 0%) rotate(180deg) scale(1, 1); }
+        45%, 55% { transform: translate(-50%, 100%) rotate(180deg) scale(3, 0.5); }
+        60% { transform: translate(-50%, 100%) rotate(180deg) scale(1, 1); }
+        75% { transform: translate(-50%, 0%) rotate(270deg) scale(1, 1); }
+        100% { transform: translate(-50%, -100%) rotate(360deg) scale(1, 1); }
+      }
+
+      /* Warning Loader (Template 2) */
+      .loader-warn {
+        position: relative;
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        box-sizing: border-box;
+        background: #fff;
+        border: 8px solid #131a1d;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .loader-warn::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -50%;
+        width: 100%;
+        height: 100%;
+        background: #263238;
+        z-index: 5;
+        border-bottom: 8px solid #131a1d;
+        box-sizing: border-box;
+        animation: eyeShade 3s infinite;
+      }
+
+      .loader-warn::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        bottom: 15px;
+        width: 32px;
+        z-index: 2;
+        height: 32px;
+        background: #111;
+        border-radius: 50%;
+        animation: eyeMove 3s infinite;
+      }
+
+      @keyframes eyeShade {
+        0% { transform: translateY(0); }
+        20% { transform: translateY(5px); }
+        40%, 50% { transform: translateY(-5px); }
+        60% { transform: translateY(-8px); }
+        75% { transform: translateY(5px); }
+        100% { transform: translateY(10px); }
+      }
+
+      @keyframes eyeMove {
+        0% { transform: translate(0, 0); }
+        20% { transform: translate(0px, 5px); }
+        40%, 50% { transform: translate(0px, -5px); }
+        60% { transform: translate(-10px, -5px); }
+        75% { transform: translate(-20px, 5px); }
+        100% { transform: translate(0, 10px); }
+      }
+
+      /* Text & Warning Box Styling */
+      .loader-text {
+        font-family: 'Play', system-ui, -apple-system, sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--loader-text-color);
+        text-align: center;
+        transition: opacity 0.15s ease;
+        min-height: 30px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      }
+
+      .loader-warn-box {
+        position: absolute;
+        bottom: -120px; /* Start offscreen */
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+        border: 2px solid #ca8a04;
+        color: #1e293b;
+        padding: 12px 20px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 15px rgba(253, 224, 71, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        width: 380px;
+        max-width: 90%;
+        box-sizing: border-box;
+        transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 10;
+      }
+
+      .loader-warn-box.show {
+        bottom: 24px; /* Slide into view */
+      }
+
+      .loader-warn-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .loader-warn-title {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #854d0e;
+      }
+
+      .loader-warn-text {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: #1e293b;
+      }
+    </style>
+
+    <script>
+      (function() {
+        // ==========================================
+        // CONFIGURATION (Adjust these for other pages)
+        // ==========================================
+        // Substring patterns of styles and scripts to wait for.
+        const REQUIRED_RESOURCES = ['login.css', 'style.css', 'main.js', 'login.js'];
+        const WARNING_TIMEOUT_MS = 7000;
+        const TEXT_ROTATION_MS = 3000;
+        const SIMULATE_DELAY_MS = 0; // TESTEN: Setze auf einen Wert > 0 (z.B. 10000 für 10s), um eine Verzögerung zu simulieren. Setze auf 0 für produktive Verwendung.
+        const MESSAGES = [
+          "Inhalt wird gesucht...",
+          "Server wird wach...",
+          "Pixel werden sortiert...",
+          "Code wird gezaubert...",
+          "Cookies werden gebacken...",
+          "Daten werden geordnet...",
+          "Staub wird gewischt...",
+          "Schrift wird hübsch...",
+          "Bugs werden gejagt..."
+        ];
+        // ==========================================
+
+        const overlay = document.getElementById('loader-overlay');
+        const textEl = document.getElementById('loader-text');
+        const warnBox = document.getElementById('loader-warn-box');
+
+        // Create a tracking map for state
+        const tracked = {};
+        REQUIRED_RESOURCES.forEach(res => {
+          tracked[res] = { element: null, loaded: false };
+        });
+
+        let finished = false;
+
+        // Check if everything is loaded
+        function checkFinished() {
+          if (finished) return;
+          const allLoaded = REQUIRED_RESOURCES.every(res => tracked[res].loaded);
+          if (allLoaded) {
+            if (SIMULATE_DELAY_MS > 0) {
+              // Künstliche Verzögerung für Testzwecke simulieren
+              setTimeout(() => {
+                if (finished) return;
+                finished = true;
+                cleanup();
+              }, SIMULATE_DELAY_MS);
+            } else {
+              finished = true;
+              cleanup();
+            }
+          }
+        }
+
+        // Hide loader and clean up timers/listeners
+        function cleanup() {
+          clearInterval(textTimer);
+          clearTimeout(warnTimer);
+          if (observer) observer.disconnect();
+
+          if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.visibility = 'hidden';
+            setTimeout(() => {
+              overlay.remove(); // Remove from DOM after transition
+            }, 200);
+          }
+        }
+
+        // Mark single resource as loaded and check
+        function markLoaded(resName) {
+          if (tracked[resName]) {
+            tracked[resName].loaded = true;
+            console.log(`[Loader] Loaded: ${resName}`);
+            checkFinished();
+          }
+        }
+
+        // Bind event listeners to DOM node
+        function bindElement(resName, element) {
+          if (tracked[resName].element) return; // Already tracking this element
+          tracked[resName].element = element;
+
+          const onLoad = () => {
+            element.removeEventListener('load', onLoad);
+            element.removeEventListener('error', onError);
+            markLoaded(resName);
+          };
+
+          const onError = () => {
+            element.removeEventListener('load', onLoad);
+            element.removeEventListener('error', onError);
+            console.warn(`[Loader] Error loading: ${resName}`);
+            markLoaded(resName); // Keep page working even if resource fails
+          };
+
+          element.addEventListener('load', onLoad);
+          element.addEventListener('error', onError);
+        }
+
+        // Match a script/link node to targets
+        function checkElement(element) {
+          if (!element || (element.tagName !== 'SCRIPT' && element.tagName !== 'LINK')) return;
+          
+          const url = element.getAttribute(element.tagName === 'SCRIPT' ? 'src' : 'href');
+          if (!url) return;
+
+          REQUIRED_RESOURCES.forEach(res => {
+            if (!tracked[res].element && url.includes(res)) {
+              bindElement(res, element);
+            }
+          });
+        }
+
+        // Initial DOM scan for elements already parsed
+        function scanDOM() {
+          document.querySelectorAll('script, link').forEach(checkElement);
+        }
+
+        // MutationObserver to capture dynamically created scripts or modified attributes
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach(mutation => {
+            if (mutation.type === 'childList') {
+              mutation.addedNodes.forEach(node => {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                  checkElement(node);
+                  if (node.tagName !== 'SCRIPT' && node.tagName !== 'LINK') {
+                    node.querySelectorAll('script, link').forEach(checkElement);
+                  }
+                }
+              });
+            } else if (mutation.type === 'attributes') {
+              checkElement(mutation.target);
+            }
+          });
+        });
+
+        observer.observe(document.documentElement, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['src', 'href']
+        });
+
+        // Run initial scan
+        scanDOM();
+        checkFinished(); // Run immediately in case list is empty or already cached
+
+        // --- TIMERS & ROTATIONS ---
+        // Rotate messages randomly without consecutive repeats
+        let currentText = textEl ? textEl.textContent : '';
+        const textTimer = setInterval(() => {
+          if (!textEl) return;
+          const filtered = MESSAGES.filter(msg => msg !== currentText);
+          const nextText = filtered[Math.floor(Math.random() * filtered.length)];
+          currentText = nextText;
+
+          textEl.style.opacity = '0';
+          setTimeout(() => {
+            textEl.textContent = nextText;
+            textEl.style.opacity = '1';
+          }, 150);
+        }, TEXT_ROTATION_MS);
+
+        // Warning notification timer
+        const warnTimer = setTimeout(() => {
+          if (warnBox) {
+            warnBox.classList.add('show');
+          }
+        }, WARNING_TIMEOUT_MS);
+
+      })();
+    </script>
+    <!-- ================================================================= -->
+    <!-- END OF COPY-PASTEABLE LOADING SCREEN -->
+    <!-- ================================================================= -->
+
+    <script>
+      // ======= START CODE =======
+      const scriptMain = document.createElement("script");
+      scriptMain.src = CDN_BASE + "/main.js";
+      document.body.appendChild(scriptMain);
+    </script>
+
+    <script>
+      const loginScript = document.createElement("script");
+      loginScript.src = CDN_BASE + "/login.js";
+      document.body.appendChild(loginScript);
+    </script>
+
+    <!-- Hidden Loader Template -->
+<div id="btnLoaderTemplate" style="display:none;">
+    <div class="cube loaderCube">
+        <div class="side"></div>
+        <div class="side"></div>
+        <div class="side"></div>
+        <div class="side"></div>
+        <div class="side"></div>
+        <div class="side"></div>
+    </div>
+</div>
+
+
+        <div class="logo-wrapper img-wrapper" id="kotzappWrapper">
+            <span class="img-placeholder placeholder-kotzapp" id="logoPlaceholder">KotzApp</span>
+            <img class="mobileLogo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="kotzapp" alt="KotzApp Logo">
+        </div>
+
+<section id="grid">
+
+    <div class="container">
+        <div class="box signin">
+            <h2>Du hast schon einen Account?</h2>
+            <button class="signinBtn">Einloggen</button>
+        </div>
+        <div class="box signup">
+            <h2>Du hast noch keinen Account?</h2>
+            <button class="signupBtn">Konto erstellen</button>
+        </div>
+
+        <div class="formBx">
+            <div class="form signinform">
+                <form novalidate autocomplete="off">
+                    <h3>Anmelden</h3>
+                    <div class="inputBx">
+                        <input type="text" name="loginUsername" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+                        <i>Nutzername</i>
+                    </div>
+                    <div class="inputBx passwordBx">
+                        <input type="password" name="loginPassword" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+                        <i>Passwort</i>
+
+                        <!-- Auge -->
+                        <button type="button" class="togglePw">
+                            <!-- Standard: Passwort unsichtbar -->
+                            <svg class="pw-icon hiddenPw" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q151 0 269 83.5T920-500q-23 59-60.5 109.5T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-151 0-269-83.5T40-500q21-53 53-98.5t73-81.5L56-792l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Zm319 93Zm-151 75Z"/></svg>
+
+                            <!-- Passwort sichtbar -->
+                            <svg class="pw-icon showPw" style="display:none" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>
+                        </button>
+                    </div>
+                    <div class="loginError" style="display:none;">
+                        Falscher Nutzername oder Passwort
+                    </div>
+                    <div class="inputBx">
+                        <input type="submit" value="Login">
+                    </div>
+                    <div class="links">
+                        <a href="#">Passwort vergessen?</a>
+                    </div>
+                    <div class="mobileSwitch signupSwitch">Registrieren</div>
+                </form>
+            </div>
+
+            <div class="form signupform">
+                <form>
+                    <h3>Konto erstellen</h3>
+
+
+                    <!-- LOCKED -->
+                    <div class="img-wrapper" style="margin-bottom: 10px;">
+                        <span class="img-placeholder placeholder-emoji">🔒</span>
+                        <img class="lockedImage" id="kotzapplock" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+                    </div>
+                    <div class="featureNotice">Dieses Feature befindet sich noch in Entwicklung.</div>
+
+
+                    <div class="inputBx">
+                        <input type="text" required>
+                        <i>Nutzername</i>
+                    </div>
+                    <div class="inputBx passwordBx">
+                        <input type="password" required>
+                        <i>Passwort</i>
+
+                        <!-- Auge -->
+                        <button type="button" class="togglePw">
+                            <!-- Standard: Passwort unsichtbar -->
+                            <svg class="pw-icon hiddenPw" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q151 0 269 83.5T920-500q-23 59-60.5 109.5T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-151 0-269-83.5T40-500q21-53 53-98.5t73-81.5L56-792l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Zm319 93Zm-151 75Z"/></svg>
+
+                            <!-- Passwort sichtbar -->
+                            <svg class="pw-icon showPw" style="display:none" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>
+                        </button>
+                    </div>
+                    <div class="inputBx passwordBx">
+                        <input type="password" required>
+                        <i>Passwort wiederholen</i>
+
+                        <!-- Auge -->
+                        <button type="button" class="togglePw">
+                            <!-- Standard: Passwort unsichtbar -->
+                            <svg class="pw-icon hiddenPw" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q151 0 269 83.5T920-500q-23 59-60.5 109.5T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-151 0-269-83.5T40-500q21-53 53-98.5t73-81.5L56-792l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Zm319 93Zm-151 75Z"/></svg>
+
+                            <!-- Passwort sichtbar -->
+                            <svg class="pw-icon showPw" style="display:none" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>
+                        </button>
+                    </div>
+                    <div class="pwError" style="display:none; color:#ff4d4d; font-size:0.9em; margin-top:-10px;">
+                        Die Passwörter müssen übereinstimmen!
+                    </div>
+
+                    <div class="inputBx">
+                        <input type="submit" value="Registrieren">
+                    </div>
+                    <div class="mobileSwitch signinSwitch">Einloggen</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- SET PASSWORD BOX -->
+<div id="setPwContainer" class="setpw hidden">
+
+    <div class="setpw-box">
+
+    <div class="setpw-pages" id="setPwPages">
+
+        <div class="setpw-page welcome-content">
+            <div class="img-wrapper">
+                <span class="img-placeholder placeholder-welcome">WILLKOMMEN!</span>
+                <img class="willkommen" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Willkommen!" id="textWillkommen">
+            </div>
+            <p id="welcomeText">
+            Willkommen!
+            Noch 3 Schritte - dann kannst du schreiben, teilen und in KotzApp verweilen.
+            </p>
+            <div class="img-wrapper">
+                <span class="img-placeholder placeholder-emoji">👋</span>
+                <img class="willkommenBudy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="willkommenBudy">
+            </div>
+        </div>
+
+        <div class="setpw-page data-content">
+            <h1>Datenschutz</h1>
+            <div class="dataInput">
+<h2 id="m4158" class="first-header">Präambel</h2>
+<p>Mit der folgenden Datenschutzerklärung möchten wir Sie darüber aufklären, welche Arten Ihrer personenbezogenen Daten (nachfolgend auch kurz als "Daten" bezeichnet) wir zu welchen Zwecken und in welchem Umfang im Rahmen der Bereitstellung unserer Applikation verarbeiten.</p>
+<p>Die verwendeten Begriffe sind nicht geschlechtsspezifisch.</p>
+
+<p>Stand: 20. Februar 2026</p><h2>Inhaltsübersicht</h2> <ul class="index"><li><a class="index-link" href="#m4158">Präambel</a></li><li><a class="index-link" href="#m3">Verantwortlicher</a></li><li><a class="index-link" href="#mOverview">Übersicht der Verarbeitungen</a></li><li><a class="index-link" href="#m2427">Maßgebliche Rechtsgrundlagen</a></li><li><a class="index-link" href="#m27">Sicherheitsmaßnahmen</a></li><li><a class="index-link" href="#m317">Geschäftliche Leistungen</a></li><li><a class="index-link" href="#m134">Einsatz von Cookies</a></li><li><a class="index-link" href="#m367">Registrierung, Anmeldung und Nutzerkonto</a></li><li><a class="index-link" href="#m182">Kontakt- und Anfrageverwaltung</a></li><li><a class="index-link" href="#m296">Audioinhalte</a></li><li><a class="index-link" href="#m17">Newsletter und elektronische Benachrichtigungen</a></li><li><a class="index-link" href="#m237">Gewinnspiele und Wettbewerbe</a></li><li><a class="index-link" href="#m408">Umfragen und Befragungen</a></li><li><a class="index-link" href="#m328">Plug-ins und eingebettete Funktionen sowie Inhalte</a></li><li><a class="index-link" href="#m15">Änderung und Aktualisierung</a></li><li><a class="index-link" href="#m42">Begriffsdefinitionen</a></li></ul><h2 id="m3">Verantwortlicher</h2><p>KotzApp</p>
+<p>Vertretungsberechtigte Personen: Alex</p>
+<p>E-Mail-Adresse: <a href="mailto:info.kotzapp@gmx.net">info.kotzapp@gmx.net</a></p>
+
+<h2 id="mOverview">Übersicht der Verarbeitungen</h2><p>Die nachfolgende Übersicht fasst die Arten der verarbeiteten Daten und die Zwecke ihrer Verarbeitung zusammen und verweist auf die betroffenen Personen.</p><h3>Arten der verarbeiteten Daten</h3>
+<ul><li>Bestandsdaten.</li><li>Zahlungsdaten.</li><li>Standortdaten.</li><li>Kontaktdaten.</li><li>Inhaltsdaten.</li><li>Vertragsdaten.</li><li>Nutzungsdaten.</li><li>Meta-, Kommunikations- und Verfahrensdaten.</li><li>Protokolldaten.</li></ul><h3>Kategorien betroffener Personen</h3><ul><li>Leistungsempfänger und Auftraggeber.</li><li>Interessenten.</li><li>Kommunikationspartner.</li><li>Nutzer.</li><li>Gewinnspiel- und Wettbewerbsteilnehmer.</li><li>Geschäfts- und Vertragspartner.</li><li>Bildungs- und Kursteilnehmer.</li><li>Teilnehmer.</li></ul><h3>Zwecke der Verarbeitung</h3><ul><li>Erbringung vertraglicher Leistungen und Erfüllung vertraglicher Pflichten.</li><li>Kommunikation.</li><li>Sicherheitsmaßnahmen.</li><li>Direktmarketing.</li><li>Reichweitenmessung.</li><li>Tracking.</li><li>Büro- und Organisationsverfahren.</li><li>Konversionsmessung.</li><li>Zielgruppenbildung.</li><li>Organisations- und Verwaltungsverfahren.</li><li>Durchführung von Gewinnspielen und Wettbewerben.</li><li>Feedback.</li><li>Umfragen und Fragebögen.</li><li>Marketing.</li><li>Profile mit nutzerbezogenen Informationen.</li><li>Bereitstellung unseres Onlineangebotes und Nutzerfreundlichkeit.</li><li>Geschäftsprozesse und betriebswirtschaftliche Verfahren.</li></ul><h2 id="m2427">Maßgebliche Rechtsgrundlagen</h2><p><strong>Maßgebliche Rechtsgrundlagen nach der DSGVO: </strong>Im Folgenden erhalten Sie eine Übersicht der Rechtsgrundlagen der DSGVO, auf deren Basis wir personenbezogene Daten verarbeiten. Bitte nehmen Sie zur Kenntnis, dass neben den Regelungen der DSGVO nationale Datenschutzvorgaben in Ihrem bzw. unserem Wohn- oder Sitzland gelten können. Sollten ferner im Einzelfall speziellere Rechtsgrundlagen maßgeblich sein, teilen wir Ihnen diese in der Datenschutzerklärung mit.</p>
+ <ul><li><strong>Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO)</strong> - Die betroffene Person hat ihre Einwilligung in die Verarbeitung der sie betreffenden personenbezogenen Daten für einen spezifischen Zweck oder mehrere bestimmte Zwecke gegeben.</li><li><strong>Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO)</strong> - Die Verarbeitung ist für die Erfüllung eines Vertrags, dessen Vertragspartei die betroffene Person ist, oder zur Durchführung vorvertraglicher Maßnahmen erforderlich, die auf Anfrage der betroffenen Person erfolgen.</li><li><strong>Rechtliche Verpflichtung (Art. 6 Abs. 1 S. 1 lit. c) DSGVO)</strong> - Die Verarbeitung ist zur Erfüllung einer rechtlichen Verpflichtung erforderlich, der der Verantwortliche unterliegt.</li><li><strong>Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO)</strong> - die Verarbeitung ist zur Wahrung der berechtigten Interessen des Verantwortlichen oder eines Dritten notwendig, vorausgesetzt, dass die Interessen, Grundrechte und Grundfreiheiten der betroffenen Person, die den Schutz personenbezogener Daten verlangen, nicht überwiegen.</li></ul><p><strong>Nationale Datenschutzregelungen in Deutschland: </strong>Zusätzlich zu den Datenschutzregelungen der DSGVO gelten nationale Regelungen zum Datenschutz in Deutschland. Hierzu gehört insbesondere das Gesetz zum Schutz vor Missbrauch personenbezogener Daten bei der Datenverarbeitung (Bundesdatenschutzgesetz – BDSG). Das BDSG enthält insbesondere Spezialregelungen zum Recht auf Auskunft, zum Recht auf Löschung, zum Widerspruchsrecht, zur Verarbeitung besonderer Kategorien personenbezogener Daten, zur Verarbeitung für andere Zwecke und zur Übermittlung sowie automatisierten Entscheidungsfindung im Einzelfall einschließlich Profiling. Ferner können Landesdatenschutzgesetze der einzelnen Bundesländer zur Anwendung gelangen.</p>
+<p><strong>Hinweis auf Geltung DSGVO und Schweizer DSG: </strong>Diese Datenschutzhinweise dienen sowohl der Informationserteilung nach dem Schweizer DSG als auch nach der Datenschutzgrundverordnung (DSGVO). Aus diesem Grund bitten wir Sie zu beachten, dass aufgrund der breiteren räumlichen Anwendung und Verständlichkeit die Begriffe der DSGVO verwendet werden. Insbesondere statt der im Schweizer DSG verwendeten Begriffe „Bearbeitung" von „Personendaten", "überwiegendes Interesse" und "besonders schützenswerte Personendaten" werden die in der DSGVO verwendeten Begriffe „Verarbeitung" von „personenbezogenen Daten" sowie "berechtigtes Interesse" und "besondere Kategorien von Daten" verwendet. Die gesetzliche Bedeutung der Begriffe wird jedoch im Rahmen der Geltung des Schweizer DSG weiterhin nach dem Schweizer DSG bestimmt.</p>
+
+<h2 id="m27">Sicherheitsmaßnahmen</h2><p>Wir treffen nach Maßgabe der gesetzlichen Vorgaben unter Berücksichtigung des Stands der Technik, der Implementierungskosten und der Art, des Umfangs, der Umstände und der Zwecke der Verarbeitung sowie der unterschiedlichen Eintrittswahrscheinlichkeiten und des Ausmaßes der Bedrohung der Rechte und Freiheiten natürlicher Personen geeignete technische und organisatorische Maßnahmen, um ein dem Risiko angemessenes Schutzniveau zu gewährleisten.</p>
+<p>Zu den Maßnahmen gehören insbesondere die Sicherung der Vertraulichkeit, Integrität und Verfügbarkeit von Daten durch Kontrolle des physischen und elektronischen Zugangs zu den Daten als auch des sie betreffenden Zugriffs, der Eingabe, der Weitergabe, der Sicherung der Verfügbarkeit und ihrer Trennung. Des Weiteren haben wir Verfahren eingerichtet, die eine Wahrnehmung von Betroffenenrechten, die Löschung von Daten und Reaktionen auf die Gefährdung der Daten gewährleisten. Ferner berücksichtigen wir den Schutz personenbezogener Daten bereits bei der Entwicklung bzw. Auswahl von Hardware, Software sowie Verfahren entsprechend dem Prinzip des Datenschutzes, durch Technikgestaltung und durch datenschutzfreundliche Voreinstellungen.</p>
+<p>Sicherung von Online-Verbindungen durch TLS-/SSL-Verschlüsselungstechnologie (HTTPS): Um die Daten der Nutzer, die über unsere Online-Dienste übertragen werden, vor unerlaubten Zugriffen zu schützen, setzen wir auf die TLS-/SSL-Verschlüsselungstechnologie. Secure Sockets Layer (SSL) und Transport Layer Security (TLS) sind die Eckpfeiler der sicheren Datenübertragung im Internet. Diese Technologien verschlüsseln die Informationen, die zwischen der Website oder App und dem Browser des Nutzers (oder zwischen zwei Servern) übertragen werden, wodurch die Daten vor unbefugtem Zugriff geschützt sind. TLS, als die weiterentwickelte und sicherere Version von SSL, gewährleistet, dass alle Datenübertragungen den höchsten Sicherheitsstandards entsprechen. Wenn eine Website durch ein SSL-/TLS-Zertifikat gesichert ist, wird dies durch die Anzeige von HTTPS in der URL signalisiert. Dies dient als ein Indikator für die Nutzer, dass ihre Daten sicher und verschlüsselt übertragen werden.</p>
+
+<h2 id="m317">Geschäftliche Leistungen</h2><p>Wir verarbeiten personenbezogene Daten unserer Vertrags- und Geschäftspartner, etwa Kunden, Auftraggeber, Interessenten, Lieferanten und sonstige Kooperationspartner (zusammenfassend „Vertragspartner"), zur Anbahnung, Durchführung und Abwicklung von Vertragsverhältnissen sowie vergleichbaren Rechtsverhältnissen. Dies umfasst auch vorvertragliche Maßnahmen, die auf Anfrage erfolgen, sowie die Kommunikation im Zusammenhang mit dem jeweiligen Vertragsverhältnis.</p>
+<p>Die Verarbeitung dient insbesondere der Erfüllung unserer vertraglichen Haupt- und Nebenpflichten. Hierzu zählen die Erbringung der vereinbarten Leistungen, etwaige Aktualisierungs- und Informationspflichten, die Bearbeitung von Gewährleistungs- und sonstigen Leistungsstörungen, die Abwicklung von Widerrufen, Kündigungen von Dauerschuldverhältnissen, Rückabwicklungen, Erstattungen sowie die Bearbeitung sonstiger vertragsbezogener Erklärungen und Anfragen. Erfasst sind sowohl einmalige Verträge als auch fortlaufende Vertragsbeziehungen.</p>
+<p>Verarbeitet werden insbesondere Stammdaten wie Name, Anschrift und ggf. Firma, Kontaktdaten wie E-Mail-Adresse und Telefonnummer, Vertrags- und Leistungsdaten wie Vertragsgegenstand, Vertragslaufzeit, Bestell- oder Vorgangsnummer, Nutzungs- und Leistungsdaten, Zahlungs- und Abrechnungsdaten sowie Kommunikationsinhalte und -historien. Soweit erforderlich, verarbeiten wir auch Daten, die uns im Rahmen der Durchführung eines Auftrags offengelegt oder übermittelt werden.</p>
+<p>Darüber hinaus verarbeiten wir die Daten zur Wahrung unserer Rechte sowie zur Erfüllung gesetzlicher Verpflichtungen. Dies umfasst insbesondere handels- und steuerrechtliche Aufbewahrungspflichten, Dokumentationspflichten sowie gegebenenfalls Nachweis- und Rechenschaftspflichten. Zudem erfolgt eine Verarbeitung auf Grundlage unserer berechtigten Interessen an einer ordnungsgemäßen Geschäftsführung, internen Verwaltung, Risikosteuerung und IT-Sicherheit sowie am Schutz unseres Geschäftsbetriebs und unserer Vertragspartner vor Missbrauch, Gefährdung von Daten, Geheimnissen und sonstigen Rechtsgütern. Hierzu kann auch die Einbindung externer Dienstleister wie IT- und Telekommunikationsanbieter, Transport- und Logistikunternehmen, Zahlungsdienstleister, Banken, Steuer- und Rechtsberater oder sonstige Erfüllungsgehilfen gehören, soweit dies für die Vertragsdurchführung oder zur Erfüllung gesetzlicher Pflichten erforderlich ist.</p>
+<p>Eine Weitergabe personenbezogener Daten an Dritte erfolgt ausschließlich, soweit dies zur Vertragserfüllung, zur Durchführung vorvertraglicher Maßnahmen, zur Wahrung berechtigter Interessen oder zur Erfüllung gesetzlicher Verpflichtungen erforderlich ist. Über darüberhinausgehende Verarbeitungen, insbesondere zu Marketingzwecken, informieren wir gesondert im Rahmen dieser Datenschutzerklärung.</p>
+<p>Welche Daten im Einzelfall erforderlich sind, teilen wir den Vertragspartnern im Rahmen der Datenerhebung mit, etwa in Onlineformularen durch entsprechende Kennzeichnung oder im persönlichen Kontakt.</p>
+<p>Die Löschung der Daten erfolgt, sobald sie für die vorgenannten Zwecke nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen. Gesetzliche Aufbewahrungsfristen, insbesondere nach Handels- und Steuerrecht, können eine längere Speicherung erfordern. Daten, die im Rahmen eines konkreten Auftrags übermittelt wurden, löschen wir nach Abschluss des Auftrags und Ablauf etwaiger Aufbewahrungsfristen, sofern keine weiteren gesetzlichen oder vertraglichen Verpflichtungen zur Speicherung bestehen.</p>
+<p>Rechtsgrundlage der Verarbeitung ist Art. 6 Abs. 1 lit. b DSGVO zur Durchführung vorvertraglicher Maßnahmen und zur Erfüllung des jeweiligen Vertragsverhältnisses sowie Art. 6 Abs. 1 lit. c DSGVO zur Erfüllung gesetzlicher Verpflichtungen. Soweit die Verarbeitung auf berechtigten Interessen beruht, erfolgt sie auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Soweit die Verarbeitung auf Art. 6 Abs. 1 lit. f DSGVO gestützt wird, erfolgt sie zur Wahrung unserer berechtigten Interessen an einer ordnungsgemäßen und effizienten Geschäftsorganisation, der internen Verwaltung und Dokumentation von Geschäftsvorgängen, der Durchsetzung und Verteidigung von Rechtsansprüchen, der Sicherstellung der IT- und Datensicherheit, der Verhinderung von Missbrauch und Betrug sowie der wirtschaftlichen Steuerung und Weiterentwicklung unseres Geschäftsbetriebs. Diese Interessen bestehen insbesondere in der Gewährleistung eines sicheren und rechtssicheren Geschäftsbetriebs sowie in der Wahrung unserer unternehmerischen Handlungsfähigkeit.</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Bestandsdaten (z. B. der vollständige Name, Wohnadresse, Kontaktinformationen, Kundennummer, etc.); Zahlungsdaten (z. B. Bankverbindungen, Rechnungen, Zahlungshistorie); Kontaktdaten (z. B. Post- und E-Mail-Adressen oder Telefonnummern). Vertragsdaten (z. B. Vertragsgegenstand, Laufzeit, Kundenkategorie).</li><li><strong>Betroffene Personen:</strong> Leistungsempfänger und Auftraggeber; Interessenten; Geschäfts- und Vertragspartner. Bildungs- und Kursteilnehmer.</li><li><strong>Zwecke der Verarbeitung und berechtigte Interessen:</strong> Erbringung vertraglicher Leistungen und Erfüllung vertraglicher Pflichten; Kommunikation; Büro- und Organisationsverfahren; Organisations- und Verwaltungsverfahren. Geschäftsprozesse und betriebswirtschaftliche Verfahren.</li><li><strong>Aufbewahrung und Löschung:</strong> Löschung entsprechend Angaben im Abschnitt "Allgemeine Informationen zur Datenspeicherung und Löschung".</li><li class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO); Rechtliche Verpflichtung (Art. 6 Abs. 1 S. 1 lit. c) DSGVO). Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).</li></ul><p><strong>Weitere Hinweise zu Verarbeitungsprozessen, Verfahren und Diensten:</strong></p><ul class="m-elements"><li><strong>Bildungs- und Schulungsleistungen: </strong>Wir verarbeiten die Daten der Teilnehmer unserer Bildungs- und Schulungsangebote (einheitlich bezeichnet als "Aus- und Fortzubildende"), um ihnen gegenüber unsere Schulungsleistungen erbringen zu können. Die hierbei verarbeiteten Daten, die Art, der Umfang, der Zweck und die Erforderlichkeit ihrer Verarbeitung bestimmen sich nach dem zugrundeliegenden Vertrags- und Schulungsverhältnis. Zu den Verarbeitungsformen gehören auch die Leistungsbewertung und die Evaluation unserer Leistungen sowie jener der Lehrenden. In Rahmen unserer Tätigkeit können wir ferner besondere Kategorien von Daten, hier insbesondere Angaben zur Gesundheit der Aus- und Fortzubildenden sowie Daten, aus denen die ethnische Herkunft, politische Meinungen, religiöse oder weltanschauliche Überzeugungen hervorgehen, verarbeiten. Hierzu holen wir, sofern erforderlich, eine ausdrückliche Einwilligung der Aus- und Fortzubildenden ein und verarbeiten die besonderen Kategorien von Daten ansonsten nur, wenn es zur Erbringung der Schulungsleistungen, zu Zwecken der Gesundheitsvorsorge, des Sozialschutzes oder des Schutzes lebensnotwendiger Interessen der Aus- und Fortzubildenden erforderlich ist; <span class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO).</span></li><li><strong>Projekt- und Entwicklungsleistungen: </strong>Wir verarbeiten die Daten unserer Kunden sowie Auftraggeber (nachfolgend einheitlich als "Kunden" bezeichnet), um ihnen die Auswahl, den Erwerb bzw. die Beauftragung der gewählten Leistungen oder Werke sowie verbundener Tätigkeiten als auch deren Bezahlung und Zurverfügungstellung bzw. Ausführung oder Erbringung zu ermöglichen.<br><br>Die erforderlichen Angaben sind als solche im Rahmen des Auftrags-, Bestell- bzw. vergleichbaren Vertragsschlusses gekennzeichnet und umfassen die zur Leistungserbringung und Abrechnung benötigten Angaben sowie Kontaktinformationen, um etwaige Rücksprachen halten zu können. Soweit wir Zugang zu Informationen der Endkunden, Mitarbeitern oder anderer Personen erhalten, verarbeiten wir diese im Einklang mit den gesetzlichen und vertraglichen Vorgaben; <span class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO).</span></li></ul>
+<h2 id="m134">Einsatz von Cookies</h2><p>Unter dem Begriff „Cookies" werden Funktionen, die Informationen auf Endgeräten der Nutzer speichern und aus ihnen auslesen, verstanden. Cookies können ferner in Bezug auf unterschiedliche Anliegen Einsatz finden, etwa zu Zwecken der Funktionsfähigkeit, der Sicherheit und des Komforts von Onlineangeboten sowie der Erstellung von Analysen der Besucherströme. Wir verwenden Cookies gemäß den gesetzlichen Vorschriften. Dazu holen wir, wenn erforderlich, vorab die Zustimmung der Nutzer ein. Ist eine Zustimmung nicht notwendig, setzen wir auf unsere berechtigten Interessen. Dies gilt, wenn das Speichern und Auslesen von Informationen unerlässlich ist, um ausdrücklich angeforderte Inhalte und Funktionen bereitstellen zu können. Dazu zählen etwa die Speicherung von Einstellungen sowie die Sicherstellung der Funktionalität und Sicherheit unseres Onlineangebots. Die Einwilligung kann jederzeit widerrufen werden. Wir informieren klar über deren Umfang und welche Cookies genutzt werden.</p>
+<p><strong>Hinweise zu datenschutzrechtlichen Rechtsgrundlagen: </strong>Ob wir personenbezogene Daten mithilfe von Cookies verarbeiten, hängt von einer Einwilligung ab. Liegt eine Einwilligung vor, dient sie als Rechtsgrundlage. Ohne Einwilligung stützen wir uns auf unsere berechtigten Interessen, die vorstehend in diesem Abschnitt und im Kontext der jeweiligen Dienste und Verfahren erläutert sind.</p>
+<p><strong>Speicherdauer: </strong>Im Hinblick auf die Speicherdauer werden die folgenden Arten von Cookies unterschieden:</p><ul><li><strong>Temporäre Cookies (auch: Session- oder Sitzungscookies):</strong> Temporäre Cookies werden spätestens gelöscht, nachdem ein Nutzer ein Onlineangebot verlassen und sein Endgerät (z. B. Browser oder mobile Applikation) geschlossen hat.</li><li><strong>Permanente Cookies:</strong> Permanente Cookies bleiben auch nach dem Schließen des Endgeräts gespeichert. So können beispielsweise der Log-in-Status gespeichert und bevorzugte Inhalte direkt angezeigt werden, wenn der Nutzer eine Website erneut besucht. Ebenso können die mithilfe von Cookies erhobenen Nutzerdaten zur Reichweitenmessung Verwendung finden. Sofern wir Nutzern keine expliziten Angaben zur Art und Speicherdauer von Cookies mitteilen (z. B. im Rahmen der Einholung der Einwilligung), sollten sie davon ausgehen, dass diese permanent sind und die Speicherdauer bis zu zwei Jahre betragen kann.</li></ul><p><strong>Allgemeine Hinweise zum Widerruf und Widerspruch (Opt-out): </strong>Nutzer können die von ihnen abgegebenen Einwilligungen jederzeit widerrufen und zudem einen Widerspruch gegen die Verarbeitung entsprechend den gesetzlichen Vorgaben, auch mittels der Privatsphäre-Einstellungen ihres Browsers, erklären.</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Meta-, Kommunikations- und Verfahrensdaten (z. B. IP-Adressen, Zeitangaben, Identifikationsnummern, beteiligte Personen).</li><li><strong>Betroffene Personen:</strong> Nutzer (z. B. Webseitenbesucher, Nutzer von Onlinediensten).</li><li class=""><strong>Rechtsgrundlagen:</strong> Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO). Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO).</li></ul><p><strong>Weitere Hinweise zu Verarbeitungsprozessen, Verfahren und Diensten:</strong></p><ul class="m-elements"><li><strong>Verarbeitung von Cookie-Daten auf Grundlage einer Einwilligung: </strong>Wir setzen eine Einwilligungs-Management-Lösung ein, bei der die Einwilligung der Nutzer zur Verwendung von Cookies oder zu den im Rahmen der Einwilligungs-Management-Lösung genannten Verfahren und Anbietern eingeholt wird. Dieses Verfahren dient der Einholung, Protokollierung, Verwaltung und dem Widerruf von Einwilligungen, insbesondere bezogen auf den Einsatz von Cookies und vergleichbaren Technologien, die zur Speicherung, zum Auslesen und zur Verarbeitung von Informationen auf den Endgeräten der Nutzer eingesetzt werden. Im Rahmen dieses Verfahrens werden die Einwilligungen der Nutzer für die Nutzung von Cookies und die damit verbundenen Verarbeitungen von Informationen, einschließlich der im Einwilligungs-Management-Verfahren genannten spezifischen Verarbeitungen und Anbieter, eingeholt. Die Nutzer haben zudem die Möglichkeit, ihre Einwilligungen zu verwalten und zu widerrufen. Die Einwilligungserklärungen werden gespeichert, um eine erneute Abfrage zu vermeiden und den Nachweis der Einwilligung gemäß der gesetzlichen Anforderungen führen zu können. Die Speicherung erfolgt serverseitig und/oder in einem Cookie (sogenanntes Opt-In-Cookie) oder mittels vergleichbarer Technologien, um die Einwilligung einem spezifischen Nutzer oder dessen Gerät zuordnen zu können. Sofern keine spezifischen Angaben zu den Anbietern von Einwilligungs-Management-Diensten vorliegen, gelten folgende allgemeine Hinweise: Die Dauer der Speicherung der Einwilligung beträgt bis zu zwei Jahre. Dabei wird ein pseudonymer Nutzer-Identifikator erstellt, der zusammen mit dem Zeitpunkt der Einwilligung, den Angaben zum Umfang der Einwilligung (z. B. betreffende Kategorien von Cookies und/oder Diensteanbieter) sowie Informationen über den Browser, das System und das verwendete Endgerät gespeichert wird; <span class=""><strong>Rechtsgrundlagen:</strong> Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO).</span></li></ul>
+<h2 id="m367">Registrierung, Anmeldung und Nutzerkonto</h2><p>Nutzer können ein Nutzerkonto anlegen. Im Rahmen der Registrierung werden den Nutzern die erforderlichen Pflichtangaben mitgeteilt und zu Zwecken der Bereitstellung des Nutzerkontos auf Grundlage vertraglicher Pflichterfüllung verarbeitet. Zu den verarbeiteten Daten gehören insbesondere die Login-Informationen (Nutzername, Passwort sowie eine E-Mail-Adresse).</p>
+<p>Im Rahmen der Inanspruchnahme unserer Registrierungs- und Anmeldefunktionen sowie der Nutzung des Nutzerkontos speichern wir die IP-Adresse und den Zeitpunkt der jeweiligen Nutzerhandlung. Die Speicherung erfolgt auf Grundlage unserer berechtigten Interessen als auch jener der Nutzer an einem Schutz vor Missbrauch und sonstiger unbefugter Nutzung. Eine Weitergabe dieser Daten an Dritte erfolgt grundsätzlich nicht, es sei denn, sie ist zur Verfolgung unserer Ansprüche erforderlich oder es besteht eine gesetzliche Verpflichtung hierzu.</p>
+<p>Die Nutzer können über Vorgänge, die für deren Nutzerkonto relevant sind, wie z. B. technische Änderungen, per E-Mail informiert werden.</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Bestandsdaten (z. B. der vollständige Name, Wohnadresse, Kontaktinformationen, Kundennummer, etc.); Kontaktdaten (z. B. Post- und E-Mail-Adressen oder Telefonnummern); Inhaltsdaten (z. B. textliche oder bildliche Nachrichten und Beiträge sowie die sie betreffenden Informationen, wie z. B. Angaben zur Autorenschaft oder Zeitpunkt der Erstellung); Nutzungsdaten (z. B. Seitenaufrufe und Verweildauer, Klickpfade, Nutzungsintensität und -frequenz, verwendete Gerätetypen und Betriebssysteme, Interaktionen mit Inhalten und Funktionen). Protokolldaten (z. B. Logfiles betreffend Logins oder den Abruf von Daten oder Zugriffszeiten.).</li><li><strong>Betroffene Personen:</strong> Nutzer (z. B. Webseitenbesucher, Nutzer von Onlinediensten).</li><li><strong>Zwecke der Verarbeitung und berechtigte Interessen:</strong> Erbringung vertraglicher Leistungen und Erfüllung vertraglicher Pflichten; Sicherheitsmaßnahmen; Organisations- und Verwaltungsverfahren. Bereitstellung unseres Onlineangebotes und Nutzerfreundlichkeit.</li><li><strong>Aufbewahrung und Löschung:</strong> Löschung entsprechend Angaben im Abschnitt "Allgemeine Informationen zur Datenspeicherung und Löschung". Löschung nach Kündigung.</li><li class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO). Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).</li></ul><p><strong>Weitere Hinweise zu Verarbeitungsprozessen, Verfahren und Diensten:</strong></p><ul class="m-elements"><li><strong>Registrierung mit Pseudonymen: </strong>Nutzer dürfen statt Klarnamen Pseudonyme als Nutzernamen verwenden; <span class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO).</span></li><li><strong>Profile der Nutzer sind öffentlich: </strong>Die Profile der Nutzer sind öffentlich sichtbar und zugänglich.</li><li><strong>Einstellung der Sichtbarkeit von Profilen: </strong>Die Nutzer können mittels Einstellungen bestimmen, in welchem Umfang ihre Profile für die Öffentlichkeit oder nur für bestimmte Personengruppen sichtbar, bzw. zugänglich sind; <span class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO).</span></li><li><strong>Löschung von Daten nach Kündigung: </strong>Wenn Nutzer ihr Nutzerkonto gekündigt haben, werden deren Daten im Hinblick auf das Nutzerkonto, vorbehaltlich einer gesetzlichen Erlaubnis, Pflicht oder Einwilligung der Nutzer, gelöscht; <span class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO).</span></li><li><strong>Keine Aufbewahrungspflicht für Daten: </strong>Es obliegt den Nutzern, ihre Daten bei erfolgter Kündigung vor dem Vertragsende zu sichern. Wir sind berechtigt, sämtliche während der Vertragsdauer gespeicherte Daten des Nutzers unwiederbringlich zu löschen; <span class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO).</span></li></ul>
+<h2 id="m182">Kontakt- und Anfrageverwaltung</h2><p>Bei der Kontaktaufnahme mit uns (z. B. per Post, Kontaktformular, E-Mail, Telefon oder via soziale Medien) sowie im Rahmen bestehender Nutzer- und Geschäftsbeziehungen werden die Angaben der anfragenden Personen verarbeitet, soweit dies zur Beantwortung der Kontaktanfragen und etwaiger angefragter Maßnahmen erforderlich ist.</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Kontaktdaten (z. B. Post- und E-Mail-Adressen oder Telefonnummern). Inhaltsdaten (z. B. textliche oder bildliche Nachrichten und Beiträge sowie die sie betreffenden Informationen, wie z. B. Angaben zur Autorenschaft oder Zeitpunkt der Erstellung).</li><li><strong>Betroffene Personen:</strong> Kommunikationspartner.</li><li><strong>Zwecke der Verarbeitung und berechtigte Interessen:</strong> Kommunikation; Organisations- und Verwaltungsverfahren; Feedback (z. B. Sammeln von Feedback via Online-Formular). Bereitstellung unseres Onlineangebotes und Nutzerfreundlichkeit.</li><li><strong>Aufbewahrung und Löschung:</strong> Löschung entsprechend Angaben im Abschnitt "Allgemeine Informationen zur Datenspeicherung und Löschung".</li><li class=""><strong>Rechtsgrundlagen:</strong> Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).</li></ul>
+<h2 id="m296">Audioinhalte</h2><p>Wir nutzen Hosting-Angebote von Dienstanbietern, um unsere Audio-Inhalte zum Anhören und zum Download anzubieten. Dabei setzen wir Plattformen ein, die das Hochladen, Speichern und Verbreiten von Audio-Material ermöglichen.</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Nutzungsdaten (z. B. Seitenaufrufe und Verweildauer, Klickpfade, Nutzungsintensität und -frequenz, verwendete Gerätetypen und Betriebssysteme, Interaktionen mit Inhalten und Funktionen); Meta-, Kommunikations- und Verfahrensdaten (z. B. IP-Adressen, Zeitangaben, Identifikationsnummern, beteiligte Personen). Protokolldaten (z. B. Logfiles betreffend Logins oder den Abruf von Daten oder Zugriffszeiten.).</li><li><strong>Betroffene Personen:</strong> Nutzer (z. B. Webseitenbesucher, Nutzer von Onlinediensten).</li><li><strong>Zwecke der Verarbeitung und berechtigte Interessen:</strong> Reichweitenmessung (z. B. Zugriffsstatistiken, Erkennung wiederkehrender Besucher); Konversionsmessung (Messung der Effektivität von Marketingmaßnahmen); Profile mit nutzerbezogenen Informationen (Erstellen von Nutzerprofilen). Bereitstellung unseres Onlineangebotes und Nutzerfreundlichkeit.</li><li><strong>Aufbewahrung und Löschung:</strong> Löschung entsprechend Angaben im Abschnitt "Allgemeine Informationen zur Datenspeicherung und Löschung".</li><li class=""><strong>Rechtsgrundlagen:</strong> Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).</li></ul><p><strong>Weitere Hinweise zu Verarbeitungsprozessen, Verfahren und Diensten:</strong></p><ul class="m-elements"><li><strong>Soundcloud: </strong>Soundcloud - Musikhosting; <strong>Dienstanbieter:</strong> SoundCloud Limited, Rheinsberger Str. 76/77, 10115 Berlin, Deutschland; <span class=""><strong>Rechtsgrundlagen:</strong> Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO); </span><strong>Website:</strong> <a href="https://soundcloud.com" target="_blank">https://soundcloud.com</a>. <strong>Datenschutzerklärung:</strong> <a href="https://soundcloud.com/pages/privacy" target="_blank">https://soundcloud.com/pages/privacy</a>.</li></ul>
+<h2 id="m17">Newsletter und elektronische Benachrichtigungen</h2><p>Wir versenden Newsletter, E-Mails und weitere elektronische Benachrichtigungen (nachfolgend „Newsletter") ausschließlich mit der Einwilligung der Empfänger oder aufgrund einer gesetzlichen Grundlage. Sofern im Rahmen einer Anmeldung zum Newsletter dessen Inhalte genannt werden, sind diese Inhalte für die Einwilligung der Nutzer maßgeblich. Für die Anmeldung zu unserem Newsletter ist normalerweise die Angabe Ihrer E-Mail-Adresse ausreichend. Um Ihnen jedoch einen personalisierten Service bieten zu können, bitten wir gegebenenfalls um die Angabe Ihres Namens für eine persönliche Ansprache im Newsletter oder um weitere Informationen, falls diese für den Zweck des Newsletters notwendig sind.</p>
+<p>Löschung und Einschränkung der Verarbeitung: Wir können die ausgetragenen E-Mail-Adressen bis zu drei Jahren auf Grundlage unserer berechtigten Interessen speichern, bevor wir sie löschen, um eine ehemals gegebene Einwilligung nachweisen zu können. Die Verarbeitung dieser Daten wird auf den Zweck einer potenziellen Abwehr von Ansprüchen beschränkt. Ein individueller Löschungsantrag ist jederzeit möglich, sofern zugleich das ehemalige Bestehen einer Einwilligung bestätigt wird. Im Fall von Pflichten zur dauerhaften Beachtung von Widersprüchen behalten wir uns die Speicherung der E-Mail-Adresse alleine zu diesem Zweck in einer Sperrliste (sogenannte „Blocklist") vor.</p>
+<p>Die Protokollierung des Anmeldeverfahrens erfolgt auf Grundlage unserer berechtigten Interessen zum Zweck des Nachweises seines ordnungsgemäßen Ablaufs. Soweit wir einen Dienstleister mit dem Versand von E-Mails beauftragen, erfolgt dies auf Grundlage unserer berechtigten Interessen an einem effizienten und sicheren Versandsystem.</p>
+<strong>Inhalte:</strong> <p>Informationen zu uns, unseren Leistungen, Aktionen und Angeboten, Neue Updates.</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Bestandsdaten (z. B. der vollständige Name, Wohnadresse, Kontaktinformationen, Kundennummer, etc.); Kontaktdaten (z. B. Post- und E-Mail-Adressen oder Telefonnummern). Meta-, Kommunikations- und Verfahrensdaten (z. B. IP-Adressen, Zeitangaben, Identifikationsnummern, beteiligte Personen).</li><li><strong>Betroffene Personen:</strong> Kommunikationspartner.</li><li><strong>Zwecke der Verarbeitung und berechtigte Interessen:</strong> Direktmarketing (z. B. per E-Mail oder postalisch).</li><li class=""><strong>Rechtsgrundlagen:</strong> Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO).</li><li><strong>Widerspruchsmöglichkeit (Opt-Out): </strong>Sie können den Empfang unseres Newsletters jederzeit kündigen, d. .h. Ihre Einwilligungen widerrufen, bzw. dem weiteren Empfang widersprechen. Einen Link zur Kündigung des Newsletters finden Sie entweder am Ende eines jeden Newsletters oder können sonst eine der oben angegebenen Kontaktmöglichkeiten, vorzugswürdig E-Mail, hierzu nutzen.</li></ul>
+<h2 id="m237">Gewinnspiele und Wettbewerbe</h2><p>Wir verarbeiten personenbezogene Daten der Teilnehmer von Gewinnspielen und Wettbewerben nur unter Einhaltung der einschlägigen Datenschutzbestimmungen, soweit die Verarbeitung zur Bereitstellung, Durchführung und Abwicklung des Gewinnspiels vertraglich erforderlich ist, die Teilnehmer in die Verarbeitung eingewilligt haben oder die Verarbeitung unseren berechtigten Interessen dient (z. B. an der Sicherheit des Gewinnspiels oder dem Schutz unserer Interessen vor Missbrauch durch mögliche Erfassung von IP-Adressen bei Einreichung von Gewinnspielbeiträgen).</p>
+<p>Falls im Rahmen der Gewinnspiele Beiträge der Teilnehmer veröffentlicht werden (z. B. im Rahmen einer Abstimmung oder Präsentation der Gewinnspielbeiträge bzw. der Gewinner oder der Berichterstattung zum Gewinnspiel), weisen wir darauf hin, dass die Namen der Teilnehmer in diesem Zusammenhang ebenfalls veröffentlicht werden können. Die Teilnehmer können dem jederzeit widersprechen.</p>
+<p>Findet das Gewinnspiel innerhalb einer Online-Plattform oder eines sozialen Netzwerks (z. B. Facebook oder Instagram, nachfolgend bezeichnet als "Online-Plattform") statt, gelten zusätzlich die Nutzungs- und Datenschutzbestimmungen der jeweiligen Plattformen. In diesen Fällen weisen wir darauf hin, dass wir für die im Rahmen des Gewinnspiels mitgeteilten Angaben der Teilnehmer verantwortlich sind und Anfragen im Hinblick auf das Gewinnspiel an uns zu richten sind.</p>
+<p>Die Daten der Teilnehmer werden gelöscht, sobald das Gewinnspiel oder der Wettbewerb beendet sind und die Daten nicht mehr erforderlich sind, um die Gewinner zu informieren oder weil nicht mehr mit Rückfragen zum Gewinnspiel zu rechnen ist. Grundsätzlich werden die Daten der Teilnehmer spätestens 6 Monate nach Ende des Gewinnspiels gelöscht. Daten der Gewinner können länger einbehalten werden, um z. B. Rückfragen zu den Gewinnen beantworten oder die Gewinnleistungen erfüllen zu können; in diesem Fall richtet sich die Aufbewahrungsdauer nach der Art des Gewinns und beträgt z. B. bei Sachen oder Leistungen bis zu drei Jahre, um z. B. Gewährleistungsfälle bearbeiten zu können. Ferner können die Daten der Teilnehmer länger gespeichert werden, z. B. in Form der Berichterstattung zum Gewinnspiel in Online- und Offline-Medien.</p>
+<p>Sofern Daten im Rahmen des Gewinnspiels auch zu anderen Zwecken erhoben wurden, richten sich deren Verarbeitung und die Aufbewahrungsdauer nach den Datenschutzhinweisen zu dieser Nutzung (z. B. im Fall einer Anmeldung zum Newsletter im Rahmen eines Gewinnspiels).</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Bestandsdaten (z. B. der vollständige Name, Wohnadresse, Kontaktinformationen, Kundennummer, etc.); Kontaktdaten (z. B. Post- und E-Mail-Adressen oder Telefonnummern). Inhaltsdaten (z. B. textliche oder bildliche Nachrichten und Beiträge sowie die sie betreffenden Informationen, wie z. B. Angaben zur Autorenschaft oder Zeitpunkt der Erstellung).</li><li><strong>Betroffene Personen:</strong> Gewinnspiel- und Wettbewerbsteilnehmer.</li><li><strong>Zwecke der Verarbeitung und berechtigte Interessen:</strong> Durchführung von Gewinnspielen und Wettbewerben.</li><li><strong>Aufbewahrung und Löschung:</strong> Löschung entsprechend Angaben im Abschnitt "Allgemeine Informationen zur Datenspeicherung und Löschung".</li><li class=""><strong>Rechtsgrundlagen:</strong> Vertragserfüllung und vorvertragliche Anfragen (Art. 6 Abs. 1 S. 1 lit. b) DSGVO). Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).</li></ul>
+<h2 id="m408">Umfragen und Befragungen</h2><p>Wir führen Umfragen und Befragungen durch, um Informationen für den jeweils kommunizierten Umfrage-  bzw. Befragungszweck, zu sammeln. Die von uns durchgeführten Umfragen und Befragungen (nachfolgend "Befragungen") werden anonym ausgewertet. Eine Verarbeitung personenbezogener Daten erfolgt nur insoweit, als dies zu Bereitstellung und technischen Durchführung der Umfragen erforderlich ist (z. B. Verarbeitung der IP-Adresse, um die Umfrage im Browser des Nutzers darzustellen oder mithilfe eines Cookies eine Wiederaufnahme der Umfrage zu ermöglichen).</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Bestandsdaten (z. B. der vollständige Name, Wohnadresse, Kontaktinformationen, Kundennummer, etc.); Kontaktdaten (z. B. Post- und E-Mail-Adressen oder Telefonnummern); Inhaltsdaten (z. B. textliche oder bildliche Nachrichten und Beiträge sowie die sie betreffenden Informationen, wie z. B. Angaben zur Autorenschaft oder Zeitpunkt der Erstellung). Nutzungsdaten (z. B. Seitenaufrufe und Verweildauer, Klickpfade, Nutzungsintensität und -frequenz, verwendete Gerätetypen und Betriebssysteme, Interaktionen mit Inhalten und Funktionen).</li><li><strong>Betroffene Personen:</strong> Teilnehmer.</li><li><strong>Zwecke der Verarbeitung und berechtigte Interessen:</strong> Feedback (z. B. Sammeln von Feedback via Online-Formular). Umfragen und Fragebögen (z. B. Umfragen mit Eingabemöglichkeiten, Multiple-Choice-Fragen).</li><li><strong>Aufbewahrung und Löschung:</strong> Löschung entsprechend Angaben im Abschnitt "Allgemeine Informationen zur Datenspeicherung und Löschung".</li><li class=""><strong>Rechtsgrundlagen:</strong> Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).</li></ul>
+<h2 id="m328">Plug-ins und eingebettete Funktionen sowie Inhalte</h2><p>Wir binden Funktions- und Inhaltselemente in unser Onlineangebot ein, die von den Servern ihrer jeweiligen Anbieter (nachfolgend als „Drittanbieter" bezeichnet) bezogen werden. Dabei kann es sich zum Beispiel um Grafiken, Videos oder Stadtpläne handeln (nachfolgend einheitlich als „Inhalte" bezeichnet).</p>
+<p>Die Einbindung setzt immer voraus, dass die Drittanbieter dieser Inhalte die IP-Adresse der Nutzer verarbeiten, da sie ohne IP-Adresse die Inhalte nicht an deren Browser senden könnten. Die IP-Adresse ist damit für die Darstellung dieser Inhalte oder Funktionen erforderlich. Wir bemühen uns, nur solche Inhalte zu verwenden, deren jeweilige Anbieter die IP-Adresse lediglich zur Auslieferung der Inhalte anzuwenden. Drittanbieter können ferner sogenannte Pixel-Tags (unsichtbare Grafiken, auch als „Web Beacons" bezeichnet) für statistische oder Marketingzwecke einsetzen. Durch die „Pixel-Tags" können Informationen, wie etwa der Besucherverkehr auf den Seiten dieser Website, ausgewertet werden. Die pseudonymen Informationen können darüber hinaus in Cookies auf dem Gerät der Nutzer gespeichert werden und unter anderem technische Auskünfte zum Browser und zum Betriebssystem, zu verweisenden Websites, zur Besuchszeit sowie weitere Angaben zur Nutzung unseres Onlineangebots enthalten, aber auch mit solchen Informationen aus anderen Quellen verbunden werden.</p>
+<p><strong>Hinweise zu Rechtsgrundlagen:</strong> Sofern wir die Nutzer um ihre Einwilligung in den Einsatz der Drittanbieter bitten, stellt die Rechtsgrundlage der Datenverarbeitung die Erlaubnis dar. Ansonsten werden die Nutzerdaten auf Grundlage unserer berechtigten Interessen (d. h. Interesse an effizienten, wirtschaftlichen und empfängerfreundlichen Leistungen) verarbeitet. In diesem Zusammenhang möchten wir Sie auch auf die Informationen zur Verwendung von Cookies in dieser Datenschutzerklärung hinweisen.</p>
+<ul class="m-elements"><li><strong>Verarbeitete Datenarten:</strong> Nutzungsdaten (z. B. Seitenaufrufe und Verweildauer, Klickpfade, Nutzungsintensität und -frequenz, verwendete Gerätetypen und Betriebssysteme, Interaktionen mit Inhalten und Funktionen); Meta-, Kommunikations- und Verfahrensdaten (z. B. IP-Adressen, Zeitangaben, Identifikationsnummern, beteiligte Personen). Standortdaten (Angaben zur geografischen Position eines Gerätes oder einer Person).</li><li><strong>Betroffene Personen:</strong> Nutzer (z. B. Webseitenbesucher, Nutzer von Onlinediensten).</li><li><strong>Zwecke der Verarbeitung und berechtigte Interessen:</strong> Bereitstellung unseres Onlineangebotes und Nutzerfreundlichkeit; Reichweitenmessung (z. B. Zugriffsstatistiken, Erkennung wiederkehrender Besucher); Tracking (z. B. interessens-/verhaltensbezogenes Profiling, Nutzung von Cookies); Zielgruppenbildung. Marketing.</li><li><strong>Aufbewahrung und Löschung:</strong> Löschung entsprechend Angaben im Abschnitt "Allgemeine Informationen zur Datenspeicherung und Löschung". Speicherung von Cookies von bis zu 2 Jahren (Sofern nicht anders angegeben, können Cookies und ähnliche Speichermethoden für einen Zeitraum von zwei Jahren auf den Geräten der Nutzer gespeichert werden.).</li><li class=""><strong>Rechtsgrundlagen:</strong> Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO). Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).</li></ul><p><strong>Weitere Hinweise zu Verarbeitungsprozessen, Verfahren und Diensten:</strong></p><ul class="m-elements"><li><strong>Google Maps: </strong>Wir binden die Landkarten des Dienstes "Google Maps" des Anbieters Google ein. Zu den verarbeiteten Daten können insbesondere IP-Adressen und Standortdaten der Nutzer gehören; <strong>Dienstanbieter:</strong> Google Cloud EMEA Limited, 70 Sir John Rogerson’s Quay, Dublin 2, Irland; <span class=""><strong>Rechtsgrundlagen:</strong> Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO); </span><strong>Website:</strong>  <a href="https://mapsplatform.google.com/" target="_blank">https://mapsplatform.google.com/</a>; <strong>Datenschutzerklärung:</strong> <a href="https://policies.google.com/privacy" target="_blank">https://policies.google.com/privacy</a>. <strong>Grundlage Drittlandtransfers:</strong> Data Privacy Framework (DPF).</li><li><strong>YouTube-Videos: </strong>Videoinhalte; <strong>Dienstanbieter:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland; <span class=""><strong>Rechtsgrundlagen:</strong> Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO); </span><strong>Website:</strong> <a href="https://www.youtube.com" target="_blank">https://www.youtube.com</a>; <strong>Datenschutzerklärung:</strong> <a href="https://policies.google.com/privacy" target="_blank">https://policies.google.com/privacy</a>; <strong>Grundlage Drittlandtransfers:</strong> Data Privacy Framework (DPF). <strong>Widerspruchsmöglichkeit (Opt-Out):</strong> Opt-Out-Plugin: <a href="https://tools.google.com/dlpage/gaoptout?hl=de" target="_blank">https://tools.google.com/dlpage/gaoptout?hl=de</a>,  Einstellungen für die Darstellung von Werbeeinblendungen: <a href="https://myadcenter.google.com/personalizationoff" target="_blank">https://myadcenter.google.com/personalizationoff</a>.</li></ul>
+<h2 id="m15">Änderung und Aktualisierung</h2><p>Wir bitten Sie, sich regelmäßig über den Inhalt unserer Datenschutzerklärung zu informieren. Wir passen die Datenschutzerklärung an, sobald die Änderungen der von uns durchgeführten Datenverarbeitungen dies erforderlich machen. Wir informieren Sie, sobald durch die Änderungen eine Mitwirkungshandlung Ihrerseits (z. B. Einwilligung) oder eine sonstige individuelle Benachrichtigung erforderlich wird.</p>
+<p>Sofern wir in dieser Datenschutzerklärung Adressen und Kontaktinformationen von Unternehmen und Organisationen angeben, bitten wir zu beachten, dass die Adressen sich über die Zeit ändern können und bitten die Angaben vor Kontaktaufnahme zu prüfen.</p>
+
+<h2 id="m42">Begriffsdefinitionen</h2><p>In diesem Abschnitt erhalten Sie eine Übersicht über die in dieser Datenschutzerklärung verwendeten Begrifflichkeiten. Soweit die Begrifflichkeiten gesetzlich definiert sind, gelten deren gesetzliche Definitionen. Die nachfolgenden Erläuterungen sollen dagegen vor allem dem Verständnis dienen.</p>
+ <ul class="glossary"><li><strong>Bestandsdaten:</strong> Bestandsdaten umfassen wesentliche Informationen, die für die Identifikation und Verwaltung von Vertragspartnern, Benutzerkonten, Profilen und ähnlichen Zuordnungen notwendig sind. Diese Daten können u.a. persönliche und demografische Angaben wie Namen, Kontaktinformationen (Adressen, Telefonnummern, E-Mail-Adressen), Geburtsdaten und spezifische Identifikatoren (Benutzer-IDs) beinhalten. Bestandsdaten bilden die Grundlage für jegliche formelle Interaktion zwischen Personen und Diensten, Einrichtungen oder Systemen, indem sie eine eindeutige Zuordnung und Kommunikation ermöglichen. </li><li><strong>Inhaltsdaten:</strong> Inhaltsdaten umfassen Informationen, die im Zuge der Erstellung, Bearbeitung und Veröffentlichung von Inhalten aller Art generiert werden. Diese Kategorie von Daten kann Texte, Bilder, Videos, Audiodateien und andere multimediale Inhalte einschließen, die auf verschiedenen Plattformen und Medien veröffentlicht werden. Inhaltsdaten sind nicht nur auf den eigentlichen Inhalt beschränkt, sondern beinhalten auch Metadaten, die Informationen über den Inhalt selbst liefern, wie Tags, Beschreibungen, Autoreninformationen und Veröffentlichungsdaten </li><li><strong>Kontaktdaten:</strong> Kontaktdaten sind essentielle Informationen, die die Kommunikation mit Personen oder Organisationen ermöglichen. Sie umfassen u.a. Telefonnummern, postalische Adressen und E-Mail-Adressen, sowie Kommunikationsmittel wie soziale Medien-Handles und Instant-Messaging-Identifikatoren. </li><li><strong>Konversionsmessung:</strong> Die Konversionsmessung (auch als "Besuchsaktionsauswertung" bezeichnet) ist ein Verfahren, mit dem die Wirksamkeit von Marketingmaßnahmen festgestellt werden kann. Dazu wird im Regelfall ein Cookie auf den Geräten der Nutzer innerhalb der Webseiten, auf denen die Marketingmaßnahmen erfolgen, gespeichert und dann erneut auf der Zielwebseite abgerufen. Beispielsweise können wir so nachvollziehen, ob die von uns auf anderen Webseiten geschalteten Anzeigen erfolgreich waren. </li><li><strong>Meta-, Kommunikations- und Verfahrensdaten:</strong> Meta-, Kommunikations- und Verfahrensdaten sind Kategorien, die Informationen über die Art und Weise enthalten, wie Daten verarbeitet, übermittelt und verwaltet werden. Meta-Daten, auch bekannt als Daten über Daten, umfassen Informationen, die den Kontext, die Herkunft und die Struktur anderer Daten beschreiben. Sie können Angaben zur Dateigröße, dem Erstellungsdatum, dem Autor eines Dokuments und den Änderungshistorien beinhalten. Kommunikationsdaten erfassen den Austausch von Informationen zwischen Nutzern über verschiedene Kanäle, wie E-Mail-Verkehr, Anrufprotokolle, Nachrichten in sozialen Netzwerken und Chat-Verläufe, inklusive der beteiligten Personen, Zeitstempel und Übertragungswege. Verfahrensdaten beschreiben die Prozesse und Abläufe innerhalb von Systemen oder Organisationen, einschließlich Workflow-Dokumentationen, Protokolle von Transaktionen und Aktivitäten, sowie Audit-Logs, die zur Nachverfolgung und Überprüfung von Vorgängen verwendet werden. </li><li><strong>Nutzungsdaten:</strong> Nutzungsdaten beziehen sich auf Informationen, die erfassen, wie Nutzer mit digitalen Produkten, Dienstleistungen oder Plattformen interagieren. Diese Daten umfassen eine breite Palette von Informationen, die aufzeigen, wie Nutzer Anwendungen nutzen, welche Funktionen sie bevorzugen, wie lange sie auf bestimmten Seiten verweilen und über welche Pfade sie durch eine Anwendung navigieren. Nutzungsdaten können auch die Häufigkeit der Nutzung, Zeitstempel von Aktivitäten, IP-Adressen, Geräteinformationen und Standortdaten einschließen. Sie sind besonders wertvoll für die Analyse des Nutzerverhaltens, die Optimierung von Benutzererfahrungen, das Personalisieren von Inhalten und das Verbessern von Produkten oder Dienstleistungen. Darüber hinaus spielen Nutzungsdaten eine entscheidende Rolle beim Erkennen von Trends, Vorlieben und möglichen Problembereichen innerhalb digitaler Angebote </li><li><strong>Personenbezogene Daten:</strong> "Personenbezogene Daten" sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person (im Folgenden "betroffene Person") beziehen; als identifizierbar wird eine natürliche Person angesehen, die direkt oder indirekt, insbesondere mittels Zuordnung zu einer Kennung wie einem Namen, zu einer Kennnummer, zu Standortdaten, zu einer Online-Kennung (z. B. Cookie) oder zu einem oder mehreren besonderen Merkmalen identifiziert werden kann, die Ausdruck der physischen, physiologischen, genetischen, psychischen, wirtschaftlichen, kulturellen oder sozialen Identität dieser natürlichen Person sind. </li><li><strong>Profile mit nutzerbezogenen Informationen:</strong> Die Verarbeitung von "Profilen mit nutzerbezogenen Informationen", bzw. kurz "Profilen" umfasst jede Art der automatisierten Verarbeitung personenbezogener Daten, die darin besteht, dass diese personenbezogenen Daten verwendet werden, um bestimmte persönliche Aspekte, die sich auf eine natürliche Person beziehen (je nach Art der Profilbildung können dazu unterschiedliche Informationen betreffend die Demographie, Verhalten und Interessen, wie z. B. die Interaktion mit Webseiten und deren Inhalten, etc.) zu analysieren, zu bewerten oder, um sie vorherzusagen (z. B. die Interessen an bestimmten Inhalten oder Produkten, das Klickverhalten auf einer Webseite oder den Aufenthaltsort). Zu Zwecken des Profilings werden häufig Cookies und Web-Beacons eingesetzt. </li><li><strong>Protokolldaten:</strong> Protokolldaten sind Informationen über Ereignisse oder Aktivitäten, die in einem System oder Netzwerk protokolliert wurden. Diese Daten enthalten typischerweise Informationen wie Zeitstempel, IP-Adressen, Benutzeraktionen, Fehlermeldungen und andere Details über die Nutzung oder den Betrieb eines Systems. Protokolldaten werden oft zur Analyse von Systemproblemen, zur Sicherheitsüberwachung oder zur Erstellung von Leistungsberichten verwendet. </li><li><strong>Reichweitenmessung:</strong> Die Reichweitenmessung (auch als Web Analytics bezeichnet) dient der Auswertung der Besucherströme eines Onlineangebotes und kann das Verhalten oder Interessen der Besucher an bestimmten Informationen, wie z. B. Inhalten von Webseiten, umfassen. Mit Hilfe der Reichweitenanalyse können Betreiber von Onlineangeboten z. B. erkennen, zu welcher Zeit Nutzer ihre Webseiten besuchen und für welche Inhalte sie sich interessieren. Dadurch können sie z. B. die Inhalte der Webseiten besser an die Bedürfnisse ihrer Besucher anpassen. Zu Zwecken der Reichweitenanalyse werden häufig pseudonyme Cookies und Web-Beacons eingesetzt, um wiederkehrende Besucher zu erkennen und so genauere Analysen zur Nutzung eines Onlineangebotes zu erhalten. </li><li><strong>Standortdaten:</strong> Standortdaten entstehen, wenn sich ein mobiles Gerät (oder ein anderes Gerät mit den technischen Voraussetzungen einer Standortbestimmung) mit einer Funkzelle, einem WLAN oder ähnlichen technischen Mitteln und Funktionen der Standortbestimmung, verbindet. Standortdaten dienen der Angabe, an welcher geografisch bestimmbaren Position der Erde sich das jeweilige Gerät befindet. Standortdaten können z. B. eingesetzt werden, um Kartenfunktionen oder andere von einem Ort abhängige Informationen darzustellen. </li><li><strong>Tracking:</strong> Vom "Tracking" spricht man, wenn das Verhalten von Nutzern über mehrere Onlineangebote hinweg nachvollzogen werden kann. Im Regelfall werden im Hinblick auf die genutzten Onlineangebote Verhaltens- und Interessensinformationen in Cookies oder auf Servern der Anbieter der Trackingtechnologien gespeichert (sogenanntes Profiling). Diese Informationen können anschließend z. B. eingesetzt werden, um den Nutzern Werbeanzeigen anzuzeigen, die voraussichtlich deren Interessen entsprechen. </li><li><strong>Verantwortlicher:</strong> Als "Verantwortlicher" wird die natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten entscheidet, bezeichnet. </li><li><strong>Verarbeitung:</strong> "Verarbeitung" ist jeder mit oder ohne Hilfe automatisierter Verfahren ausgeführte Vorgang oder jede solche Vorgangsreihe im Zusammenhang mit personenbezogenen Daten. Der Begriff reicht weit und umfasst praktisch jeden Umgang mit Daten, sei es das Erheben, das Auswerten, das Speichern, das Übermitteln oder das Löschen. </li><li><strong>Vertragsdaten:</strong> Vertragsdaten sind spezifische Informationen, die sich auf die Formalisierung einer Vereinbarung zwischen zwei oder mehr Parteien beziehen. Sie dokumentieren die Bedingungen, unter denen Dienstleistungen oder Produkte bereitgestellt, getauscht oder verkauft werden. Diese Datenkategorie ist wesentlich für die Verwaltung und Erfüllung vertraglicher Verpflichtungen und umfasst sowohl die Identifikation der Vertragsparteien als auch die spezifischen Bedingungen und Konditionen der Vereinbarung. Vertragsdaten können Start- und Enddaten des Vertrages, die Art der vereinbarten Leistungen oder Produkte, Preisvereinbarungen, Zahlungsbedingungen, Kündigungsrechte, Verlängerungsoptionen und spezielle Bedingungen oder Klauseln umfassen. Sie dienen als rechtliche Grundlage für die Beziehung zwischen den Parteien und sind entscheidend für die Klärung von Rechten und Pflichten, die Durchsetzung von Ansprüchen und die Lösung von Streitigkeiten. </li><li><strong>Zahlungsdaten:</strong> Zahlungsdaten umfassen sämtliche Informationen, die zur Abwicklung von Zahlungstransaktionen zwischen Käufern und Verkäufern benötigt werden. Diese Daten sind von entscheidender Bedeutung für den elektronischen Handel, das Online-Banking und jede andere Form der finanziellen Transaktion. Sie beinhalten Details wie Kreditkartennummern, Bankverbindungen, Zahlungsbeträge, Transaktionsdaten, Verifizierungsnummern und Rechnungsinformationen. Zahlungsdaten können auch Informationen über den Zahlungsstatus, Rückbuchungen, Autorisierungen und Gebühren enthalten. </li><li><strong>Zielgruppenbildung:</strong> Von Zielgruppenbildung (englisch "Custom Audiences") spricht man, wenn Zielgruppen für Werbezwecke, z. B. Einblendung von Werbeanzeigen bestimmt werden. So kann z. B. anhand des Interesses eines Nutzers an bestimmten Produkten oder Themen im Internet geschlussfolgert werden, dass dieser Nutzer sich für Werbeanzeigen für ähnliche Produkte oder den Onlineshop, in dem er die Produkte betrachtet hat, interessiert. Von "Lookalike Audiences" (bzw. ähnlichen Zielgruppen) spricht man wiederum, wenn die als geeignet eingeschätzten Inhalte Nutzern angezeigt werden, deren Profile, bzw. Interessen mutmaßlich den Nutzern zu denen die Profile gebildet wurden, entsprechen. Zur Zwecken der Bildung von Custom Audiences und Lookalike Audiences werden im Regelfall Cookies und Web-Beacons eingesetzt. </li></ul><p class="seal"></p>
+            </div>
+        </div>
+
+        <div class="setpw-page setpw-content">
+            <h2>Neues Passwort setzen</h2>
+
+            <form id="setPwForm" autocomplete="off">
+                <div class="inputBx passwordBx">
+                    <input type="password" name="pw1" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+                    <i>Neues Passwort</i>
+                </div>
+
+                <div class="inputBx passwordBx">
+                    <input type="password" name="pw2" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+                    <i>Passwort wiederholen</i>
+                </div>
+                <div class="pwError" style="display:none;">
+                    Die Passwörter müssen übereinstimmen!
+                </div>
+            </form>
+
+            <div class="img-wrapper" style="flex-grow:1;">
+                <span class="img-placeholder placeholder-emoji">🔐</span>
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="setpasswordGIF" class="setpassword-image">
+            </div>
+        </div>
+
+        <div class="setpw-page tutorial-content">
+            <div class="img-wrapper">
+                <span class="img-placeholder placeholder-tutorial">APP HERUNTERLADEN</span>
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="tutorialImage" class="tutorial-image">
+            </div>
+            <p>Hier kommt dein App-Preview rein.</p>
+        </div>
+
+    </div>
+
+    <div class="setpw-nav">
+        <button class="back" id="setPwBack">Zurück</button>
+        <div class="setpw-progress" id="setPwProgress">1 / 4</div>
+        <button class="next" id="setPwNext">Weiter</button>
+    </div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<!-- QR LOGIN OVERLAY -->
+<div id="qrOverlay" class="qr-overlay hidden">
+    <div class="qr-overlay-content">
+        <div class="cube loaderCube qr-loader">
+            <div class="side"></div>
+            <div class="side"></div>
+            <div class="side"></div>
+            <div class="side"></div>
+            <div class="side"></div>
+            <div class="side"></div>
+        </div>
+
+        <div class="qr-text">
+            Dein QR-Code wird überprüft<span class="dots"></span>
+        </div>
+    </div>
+</div>
+
+
+<!-- TUTORIAL SKIP CONFIRM -->
+<div id="skipTutorialOverlay" class="skip-overlay hidden">
+
+    <div class="skip-backdrop"></div>
+
+    <div class="skip-box">
+        <div class="heading-box">
+            <h2>Tutorial überspringen?</h2>
+        </div>
+        <p>Bist du sicher? (Du kannst das Tutorial später nochmal machen)</p>
+
+        <div class="skip-actions">
+            <button class="skip-cancel">Abbrechen</button>
+            <button class="skip-confirm">Überspringen</button>
+        </div>
+    </div>
+
+</div>
+
+
+</script>
+    
+    <script>
+    // ====== ALLE LINKS HIER ======
+
+        document.getElementById("favicon").href = CDN_BASE + "/favicon.ico";
+        document.getElementById("favicon32").href = CDN_BASE + "/favicon-32.png";
+        document.getElementById("appleicon").href = CDN_BASE + "/apple-touch-icon.png";
+        document.getElementById("kotzapp").src = CDN_BASE + "/images/kotzapp.webp";
+        document.getElementById("kotzapplock").src = CDN_BASE + "/images/buddy/kotzapp-lock.webp";
+
+        document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
+        document.getElementById("logincss").href = CDN_BASE + "/login.css";
+        document.getElementById("stylecss").href = CDN_BASE + "/style.css";
+        document.getElementById("textWillkommen").src = CDN_BASE + "/images/login/text-willkommen.webp";
+        document.getElementById("willkommenBudy").src = CDN_BASE + "/images/login/willkommenBuddy.png";
+        document.getElementById("setpasswordGIF").src = CDN_BASE + "/images/login/set-password.apng";
+        document.getElementById("tutorialImage").src = CDN_BASE + "/images/login/tutorial.apng";
+
+        initImageLoaders();
+    </script>
+
+</body>
+</html>

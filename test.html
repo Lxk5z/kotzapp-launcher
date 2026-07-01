@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+    window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@latest";
+    </script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="" id="fontcss">
+    <link rel="stylesheet" href="" id="stylecss">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+<body>
+    
+
+  <button id="update-btn" class="btn-90">
+    <span class="liquid"></span>
+    <svg class="button_download-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+    <span class="button_text">
+      <span class="text-default">Jetzt aktualisieren</span>
+      <span class="text-hover">Aktualisieren</span>
+    </span>
+  </button>
+
+
+
+
+
+<style>
+    body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .btn-90 {
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    height: 60px; /* Feste Höhe statt vertikalem Padding */
+    padding: 0 80px; /* Nur noch horizontales Padding */
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Play', Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    min-width: 380px; /* Feste Breite, um Expansion beim Hover zu verhindern */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center; /* Zentriert Icon und Text-Container vertikal */
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.btn-90 .liquid {
+    background-color: #17e714;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-shadow: inset 5px -5px 25px #0d8f0a, inset -5px 0px 25px #0d4b11;
+}
+.btn-90 .liquid::before {
+    content: '';
+    width: 450px;
+    height: 400px;
+    background-color: #26d929;
+    z-index: 1;
+    position: absolute;
+    left: -110px;
+    top: -380px;
+    border-radius: 40%;
+    animation: animate_90 5s linear 0s infinite;
+}
+
+.btn-90 .liquid::after {
+    content: '';
+    width: 450px;
+    height: 400px;
+    background: #000;
+    z-index: 1;
+    position: absolute;
+    left: -110px;
+    top: -380px;
+    border-radius: 45%;
+    animation: animate_90 5s linear 0.2s infinite;
+}
+
+
+.btn-90 .button_text {
+    position: relative;
+    z-index: 1;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    height: 1.2em; /* Feste Höhe, um den Textwechsel zu ermöglichen ohne Button-Höhe zu ändern */
+    overflow: hidden; /* Überlaufenden Text während der Transition ausblenden */
+    display: flex; /* Flexbox für die Zentrierung der inneren Spans */
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; /* Erlaubt dem Text, den verfügbaren Platz einzunehmen */
+}
+
+.btn-90 .button_text .text-default,
+.btn-90 .button_text .text-hover {
+    position: absolute;
+    white-space: nowrap; /* Verhindert Zeilenumbruch */
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    /* Zentrierung für absolut positionierte Elemente */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-90 .button_text .text-default {
+    opacity: 1;
+    transform: translate(-50%, -50%); /* Standardposition (zentriert) */
+}
+
+.btn-90 .button_text .text-hover {
+    opacity: 0;
+    transform: translate(-50%, 50%); /* Startet unterhalb des sichtbaren Bereichs */
+}
+
+.btn-90 .button_download-icon {
+    position: relative;
+    z-index: 1;
+    fill: #fff;
+    height: auto;
+
+    /* Start-Zustand: Unsichtbar und kein Platzverbrauch (keine Hitbox) */
+    width: 0;
+    margin-right: 0;
+    opacity: 0;
+    transform: translateY(-50px) translateZ(0);
+    pointer-events: none;
+
+    /* Sanfter Übergang für alle Eigenschaften (Breite schiebt den Text) */
+    transition: width 0.3s ease-in-out, margin-right 0.3s ease-in-out, transform 0.3s ease-in-out, opacity 0.3s ease-in-out, flex-basis 0.3s ease-in-out;
+    
+    will-change: transform, filter, width, opacity, flex-basis;
+    filter: drop-shadow(1.5px 0 0 #000)
+            drop-shadow(-1.5px 0 0 #000) 
+            drop-shadow(0 1.5px 0 #000) 
+            drop-shadow(0 -1.5px 0 #000);
+}
+
+@media (hover: hover) {
+    .btn-90:hover .button_text .text-default {
+        opacity: 0;
+        transform: translate(-50%, -150%); /* Bewegt sich nach oben aus dem Sichtfeld */
+    }
+
+    .btn-90:hover .button_text .text-hover {
+        opacity: 1;
+        transform: translate(-50%, -50%); /* Bewegt sich in die Mitte */
+    }
+
+    .btn-90:hover .liquid::before {
+        animation: adding_top_90 1s ease-in 1 forwards;
+    }
+
+    .btn-90:hover .liquid::after {
+        animation: adding_top_90 1s ease-in 1 forwards;
+    }
+
+    .btn-90:hover .button_download-icon {
+    width: 30px;
+    margin-right: 20px;
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+    pointer-events: auto;
+    }
+
+    .btn-90:hover {
+    border: 5px solid #32ff2e;
+    }
+}
+
+@keyframes adding_top_90 {
+    0% {
+        top: -380px;
+    }
+
+    100% {
+        top: -700px;
+    }
+}
+
+
+@keyframes animate_90 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>
+
+<!-- ================================================================= -->
+    <!-- START OF COPY-PASTEABLE LOADING SCREEN -->
+    <!-- ================================================================= -->
+    <div id="loader-overlay" class="loader-overlay">
+      <div class="loader-main-container">
+        <div class="loader-main"></div>
+        <div id="loader-text" class="loader-text">Inhalt wird gesucht...</div>
+      </div>
+      
+      <div id="loader-warn-box" class="loader-warn-box">
+        <div class="loader-warn"></div>
+        <div class="loader-warn-content">
+          <div class="loader-warn-title">Hinweis</div>
+          <div class="loader-warn-text">Das dauert länger als gewöhnlich...</div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+
+      @media (prefers-color-scheme: dark) {
+       :root {
+        --menu-loading-1: #191919;
+        --menu-loading-2: #000000;
+        --bounce-loader-color: #ffffff;
+        --loader-accent-color: #00e836;
+        --loader-text-color: #e5e7eb;
+       }
+      }
+      @media (prefers-color-scheme: light) {
+       :root {
+        --menu-loading-1: #ffffff;
+        --menu-loading-2: #dddddd;
+        --bounce-loader-color: #404040;
+        --loader-accent-color: #00C853;
+        --loader-text-color: #111111;
+       }
+      }
+
+      /* Loader Overlay Styles */
+      .loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(circle at center, var(--menu-loading-1) 0%, var(--menu-loading-2) 100%);
+        z-index: 2147483647; /* Maximum possible z-index to stay on top of everything */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .loader-main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      /* Main Loader (Template 1) */
+      .loader-main {
+        position: relative;
+        width: 164px;
+        height: 164px;
+      }
+
+      .loader-main::before,
+      .loader-main::after {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-color: var(--bounce-loader-color);
+        left: 50%;
+        top: 50%;
+        animation: rotate 1s ease-in infinite;
+      }
+
+      .loader-main::after {
+        width: 20px;
+        height: 20px;
+        background-color: var(--loader-accent-color);
+        animation: rotate 1s ease-in infinite, moveY 1s ease-in infinite;
+      }
+
+      @keyframes moveY {
+        0%, 100% { top: 10%; }
+        45%, 55% { top: 59%; }
+        60% { top: 40%; }
+      }
+
+      @keyframes rotate {
+        0% { transform: translate(-50%, -100%) rotate(0deg) scale(1, 1); }
+        25% { transform: translate(-50%, 0%) rotate(180deg) scale(1, 1); }
+        45%, 55% { transform: translate(-50%, 100%) rotate(180deg) scale(3, 0.5); }
+        60% { transform: translate(-50%, 100%) rotate(180deg) scale(1, 1); }
+        75% { transform: translate(-50%, 0%) rotate(270deg) scale(1, 1); }
+        100% { transform: translate(-50%, -100%) rotate(360deg) scale(1, 1); }
+      }
+
+      /* Warning Loader (Template 2) */
+      .loader-warn {
+        position: relative;
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        box-sizing: border-box;
+        background: #fff;
+        border: 8px solid #131a1d;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .loader-warn::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -50%;
+        width: 100%;
+        height: 100%;
+        background: #263238;
+        z-index: 5;
+        border-bottom: 8px solid #131a1d;
+        box-sizing: border-box;
+        animation: eyeShade 3s infinite;
+      }
+
+      .loader-warn::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        bottom: 15px;
+        width: 32px;
+        z-index: 2;
+        height: 32px;
+        background: #111;
+        border-radius: 50%;
+        animation: eyeMove 3s infinite;
+      }
+
+      @keyframes eyeShade {
+        0% { transform: translateY(0); }
+        20% { transform: translateY(5px); }
+        40%, 50% { transform: translateY(-5px); }
+        60% { transform: translateY(-8px); }
+        75% { transform: translateY(5px); }
+        100% { transform: translateY(10px); }
+      }
+
+      @keyframes eyeMove {
+        0% { transform: translate(0, 0); }
+        20% { transform: translate(0px, 5px); }
+        40%, 50% { transform: translate(0px, -5px); }
+        60% { transform: translate(-10px, -5px); }
+        75% { transform: translate(-20px, 5px); }
+        100% { transform: translate(0, 10px); }
+      }
+
+      /* Text & Warning Box Styling */
+      .loader-text {
+        font-family: 'Play', system-ui, -apple-system, sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--loader-text-color);
+        text-align: center;
+        transition: opacity 0.15s ease;
+        min-height: 30px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      }
+
+      .loader-warn-box {
+        position: absolute;
+        bottom: -120px; /* Start offscreen */
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+        border: 2px solid #ca8a04;
+        color: #1e293b;
+        padding: 12px 20px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 15px rgba(253, 224, 71, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        width: 380px;
+        max-width: 90%;
+        box-sizing: border-box;
+        transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 10;
+      }
+
+      .loader-warn-box.show {
+        bottom: 24px; /* Slide into view */
+      }
+
+      .loader-warn-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .loader-warn-title {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #854d0e;
+      }
+
+      .loader-warn-text {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: #1e293b;
+      }
+    </style>
+
+    <script>
+      (function() {
+        // ==========================================
+        // CONFIGURATION (Adjust these for other pages)
+        // ==========================================
+        // Substring patterns of styles and scripts to wait for.
+        const REQUIRED_RESOURCES = ['style.css', 'main.js'];
+        const WARNING_TIMEOUT_MS = 7000;
+        const TEXT_ROTATION_MS = 3000;
+        const SIMULATE_DELAY_MS = 0; // TESTEN: Setze auf einen Wert > 0 (z.B. 10000 für 10s), um eine Verzögerung zu simulieren. Setze auf 0 für produktive Verwendung.
+        const MESSAGES = [
+          "Inhalt wird gesucht...",
+          "Server wird wach...",
+          "Pixel werden sortiert...",
+          "Code wird gezaubert...",
+          "Cookies werden gebacken...",
+          "Daten werden geordnet...",
+          "Staub wird gewischt...",
+          "Schrift wird hübsch...",
+          "Bugs werden gejagt..."
+        ];
+        // ==========================================
+
+        const overlay = document.getElementById('loader-overlay');
+        const textEl = document.getElementById('loader-text');
+        const warnBox = document.getElementById('loader-warn-box');
+
+        // Create a tracking map for state
+        const tracked = {};
+        REQUIRED_RESOURCES.forEach(res => {
+          tracked[res] = { element: null, loaded: false };
+        });
+
+        let finished = false;
+
+        // Check if everything is loaded
+        function checkFinished() {
+          if (finished) return;
+          const allLoaded = REQUIRED_RESOURCES.every(res => tracked[res].loaded);
+          if (allLoaded) {
+            if (SIMULATE_DELAY_MS > 0) {
+              // Künstliche Verzögerung für Testzwecke simulieren
+              setTimeout(() => {
+                if (finished) return;
+                finished = true;
+                cleanup();
+              }, SIMULATE_DELAY_MS);
+            } else {
+              finished = true;
+              cleanup();
+            }
+          }
+        }
+
+        // Hide loader and clean up timers/listeners
+        function cleanup() {
+          clearInterval(textTimer);
+          clearTimeout(warnTimer);
+          if (observer) observer.disconnect();
+
+          if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.visibility = 'hidden';
+            setTimeout(() => {
+              overlay.remove(); // Remove from DOM after transition
+            }, 200);
+          }
+        }
+
+        // Mark single resource as loaded and check
+        function markLoaded(resName) {
+          if (tracked[resName]) {
+            tracked[resName].loaded = true;
+            console.log(`[Loader] Loaded: ${resName}`);
+            checkFinished();
+          }
+        }
+
+        // Bind event listeners to DOM node
+        function bindElement(resName, element) {
+          if (tracked[resName].element) return; // Already tracking this element
+          tracked[resName].element = element;
+
+          const onLoad = () => {
+            element.removeEventListener('load', onLoad);
+            element.removeEventListener('error', onError);
+            markLoaded(resName);
+          };
+
+          const onError = () => {
+            element.removeEventListener('load', onLoad);
+            element.removeEventListener('error', onError);
+            console.warn(`[Loader] Error loading: ${resName}`);
+            markLoaded(resName); // Keep page working even if resource fails
+          };
+
+          element.addEventListener('load', onLoad);
+          element.addEventListener('error', onError);
+        }
+
+        // Match a script/link node to targets
+        function checkElement(element) {
+          if (!element || (element.tagName !== 'SCRIPT' && element.tagName !== 'LINK')) return;
+          
+          const url = element.getAttribute(element.tagName === 'SCRIPT' ? 'src' : 'href');
+          if (!url) return;
+
+          REQUIRED_RESOURCES.forEach(res => {
+            if (!tracked[res].element && url.includes(res)) {
+              bindElement(res, element);
+            }
+          });
+        }
+
+        // Initial DOM scan for elements already parsed
+        function scanDOM() {
+          document.querySelectorAll('script, link').forEach(checkElement);
+        }
+
+        // MutationObserver to capture dynamically created scripts or modified attributes
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach(mutation => {
+            if (mutation.type === 'childList') {
+              mutation.addedNodes.forEach(node => {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                  checkElement(node);
+                  if (node.tagName !== 'SCRIPT' && node.tagName !== 'LINK') {
+                    node.querySelectorAll('script, link').forEach(checkElement);
+                  }
+                }
+              });
+            } else if (mutation.type === 'attributes') {
+              checkElement(mutation.target);
+            }
+          });
+        });
+
+        observer.observe(document.documentElement, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['src', 'href']
+        });
+
+        // Run initial scan
+        scanDOM();
+        checkFinished(); // Run immediately in case list is empty or already cached
+
+        // --- TIMERS & ROTATIONS ---
+        // Rotate messages randomly without consecutive repeats
+        let currentText = textEl ? textEl.textContent : '';
+        const textTimer = setInterval(() => {
+          if (!textEl) return;
+          const filtered = MESSAGES.filter(msg => msg !== currentText);
+          const nextText = filtered[Math.floor(Math.random() * filtered.length)];
+          currentText = nextText;
+
+          textEl.style.opacity = '0';
+          setTimeout(() => {
+            textEl.textContent = nextText;
+            textEl.style.opacity = '1';
+          }, 150);
+        }, TEXT_ROTATION_MS);
+
+        // Warning notification timer
+        const warnTimer = setTimeout(() => {
+          if (warnBox) {
+            warnBox.classList.add('show');
+          }
+        }, WARNING_TIMEOUT_MS);
+
+      })();
+    </script>
+    <!-- ================================================================= -->
+    <!-- END OF COPY-PASTEABLE LOADING SCREEN -->
+    <!-- ================================================================= -->
+
+    <script>
+  const scriptMain = document.createElement("script");
+  scriptMain.src = CDN_BASE + "/main.js";
+  document.body.appendChild(scriptMain);
+  </script>
+
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+    </style>
+
+
+<script>
+    // ====== ALLE LINKS HIER ======
+        document.getElementById("fontcss").href = CDN_BASE + "/fonts/aclonica.css";
+        document.getElementById("stylecss").href = CDN_BASE + "/style.css";
+
+        initImageLoaders();
+    </script>
+
+</body>
+</html>
