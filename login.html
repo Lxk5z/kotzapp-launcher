@@ -453,7 +453,7 @@
 
     <script>
       const loginScript = document.createElement("script");
-      loginScript.src = CDN_BASE + "/login.js";
+      loginScript.src = "/login.js";
       document.body.appendChild(loginScript);
     </script>
 
@@ -699,7 +699,24 @@
                 <span class="img-placeholder placeholder-tutorial">APP HERUNTERLADEN</span>
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="tutorialImage" class="tutorial-image">
             </div>
-            <p>Hier kommt dein App-Preview rein.</p>
+            <div class="tutorial-guide" aria-label="Anleitung zum Hinzufügen der App">
+                <div class="tutorial-step">
+                    <span class="tutorial-step-number">1</span>
+                    <p>Drücke oben rechts neben der Suchzeile deines Browsers auf das Teilen-Symbol <span class="tutorial-share-icon" aria-label="Teilen"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" aria-hidden="true"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg></span>.</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="tutorial-step-number">2</span>
+                    <p>Drücke im geöffneten Menü auf <strong>„▽ Mehr anzeigen“</strong>.</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="tutorial-step-number">3</span>
+                    <p>Wähle anschließend <strong>„Zum Homebildschirm hinzufügen“</strong>.</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="tutorial-step-number">4</span>
+                    <p>Drücke auf <strong>„Hinzufügen“</strong>, während <strong>„Als Web-App öffnen“</strong> aktiviert ist. Den App-Namen <strong>„KotzApp“</strong> kannst du dabei individuell anpassen.</p>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -777,7 +794,6 @@
         document.getElementById("setpasswordGIF").src = CDN_BASE + "/images/login/set-password.apng";
         document.getElementById("tutorialImage").src = CDN_BASE + "/images/login/tutorial.apng";
 
-        initImageLoaders();
     </script>
 
 </body>
