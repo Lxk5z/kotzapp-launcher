@@ -20,6 +20,7 @@ const STATIC_ASSETS = [
   `${CDN_BASE}/main.js`,
   `${CDN_BASE}/messenger.js`,
   `${CDN_BASE}/online-ping.js`,
+  `${CDN_BASE}/login.js`,
 
   // /FONTS
   `${CDN_BASE}/fonts/aclonica.css`,
@@ -30,9 +31,10 @@ const STATIC_ASSETS = [
   `${CDN_BASE}/images/chat-bg.png`,
   `${CDN_BASE}/images/kotzapp.webp`,
   `${CDN_BASE}/images/kotzapp-red.webp`,
+  `${CDN_BASE}/images/kotzapp-192.png`,
 
   // /IMAGES/ICONS
-        `${CDN_BASE}/images/icons/ai_logo.png`,
+  `${CDN_BASE}/images/icons/ai_logo.png`,
       
   // /IMAGES/USERS
   `${CDN_BASE}/images/users/classchat.png`,
@@ -165,6 +167,57 @@ self.addEventListener("fetch", (event) => {
 
         return res;
       }).catch(() => caches.match(req));
+    })
+  );
+});
+
+/* =========================
+   PUSH NOTIFICATIONS 🔔
+========================= */
+self.addEventListener("push", (event) => {
+  let data = { 
+    title: "KotzApp", 
+    body: "Neue Nachricht.", 
+    icon: "/images/kotzapp.webp", 
+    url: "/messenger.html" 
+  };
+
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: data.icon || "/images/kotzapp.webp",
+    badge: "/images/icons/ai_logo.png",
+    vibrate: [100, 50, 100],
+    data: { url: data.url || "/messenger.html" }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+// Klick auf Notification öffnet oder fokussiert die App
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const targetUrl = event.notification.data?.url || "/messenger.html";
+
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url.includes(targetUrl) && "focus" in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
     })
   );
 });
