@@ -1,7 +1,7 @@
 self.skipWaiting();
 
 const CACHE_NAME = "kotzapp-" + Date.now();
-const CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@latest";
+const CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@c81ba7f";
 const STATIC_ASSETS = [
   "/",
 
