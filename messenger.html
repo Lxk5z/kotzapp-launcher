@@ -3,7 +3,7 @@
 <head>
 
     <script>
-  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@4f383f1";
+  window.CDN_BASE = "https://cdn.jsdelivr.net/gh/Lxk5z/kotzapp-web@latest";
     </script>
 
   <link rel="icon" href="" id="favicon">
@@ -57,7 +57,12 @@
       document.body.appendChild(scriptOnlinePing);
     </script>
     
-
+    <script>
+      // ======= NEW FEATURES OVERLAY =======
+      const scriptNewFeatures = document.createElement("script");
+      scriptNewFeatures.src = CDN_BASE + "/new-features.js";
+      document.body.appendChild(scriptNewFeatures);
+    </script>
 
 
     <div class="chat-bg"></div>
@@ -110,6 +115,18 @@
       </div>
       <input type="color" id="text-color-input" class="hidden-color-input" tabindex="-1">
     </label>
+
+    <!-- BENACHRICHTIGUNGEN ZEILE -->
+    <div class="theme-row" id="notificationsRow" style="cursor: pointer; user-select: none;">
+      <input type="checkbox" id="notifications-checkbox" class="notification-toggle">
+      <span class="theme-label">Benachrichtigungen</span>
+    </div>
+
+    <div class="theme-row" id="headerParticlesRow" style="cursor: pointer; user-select: none;">
+      <input type="checkbox" id="header-particles-checkbox" class="notification-toggle">
+      <span class="theme-label">Header Partikel</span>
+    </div>
+
     <div class="theme-row" id="logoutRow">
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#db0000" style="margin-top:10px;"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
       <span class="theme-label red-logout" id="logoutBtn">Ausloggen</span>
@@ -143,6 +160,16 @@
   </div>
   <button id="imagePreviewClose" class="image-preview-close" aria-label="Vorschau schließen">
     <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#e3e3e3"><path d="M270-240 480-450 690-240l50-50-210-210 210-210-50-50-210 210-210-210-50 50 210 210-210 210 50 50Z"/></svg>
+  </button>
+</div>
+
+<!-- Nachrichten-Kontextmenü: liegt über dem Chat, aber unter Header und Eingabeleiste. -->
+<div id="messageContextOverlay" class="message-context-overlay" aria-hidden="true">
+</div>
+<div id="messageContextMenu" class="message-context-menu" role="menu" aria-label="Nachrichtenoptionen">
+  <button id="messageContextCopy" class="image-preview-btn message-context-copy" type="button" role="menuitem">
+    <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" aria-hidden="true"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
+    <span>Kopieren</span>
   </button>
 </div>
 
@@ -472,7 +499,7 @@
         // CONFIGURATION (Adjust these for other pages)
         // ==========================================
         // Substring patterns of styles and scripts to wait for.
-        const REQUIRED_RESOURCES = ['messenger.css', 'style.css', 'main.js', 'messenger.js'];
+        const REQUIRED_RESOURCES = ['messenger.css', 'style.css', 'main.js', 'messenger.js', 'online-ping.js'];
         const WARNING_TIMEOUT_MS = 7000;
         const TEXT_ROTATION_MS = 3000;
         const SIMULATE_DELAY_MS = 0; // TESTEN: Setze auf einen Wert > 0 (z.B. 10000 für 10s), um eine Verzögerung zu simulieren. Setze auf 0 für produktive Verwendung.
@@ -526,6 +553,9 @@
           clearTimeout(warnTimer);
           if (observer) observer.disconnect();
 
+          window.kotzappLoaderFinished = true;
+          window.dispatchEvent(new CustomEvent('kotzapp-loader-finished'));
+
           if (overlay) {
             overlay.style.opacity = '0';
             overlay.style.visibility = 'hidden';
@@ -562,8 +592,20 @@
             markLoaded(resName); // Keep page working even if resource fails
           };
 
+          // Check if stylesheet is ALREADY loaded (e.g. from browser cache)
+          if (element.tagName === 'LINK' && element.sheet) {
+            markLoaded(resName);
+            return;
+          }
+
           element.addEventListener('load', onLoad);
           element.addEventListener('error', onError);
+
+          if (element.tagName === 'LINK' && element.sheet) {
+            element.removeEventListener('load', onLoad);
+            element.removeEventListener('error', onError);
+            markLoaded(resName);
+          }
         }
 
         // Match a script/link node to targets
@@ -613,6 +655,23 @@
         // Run initial scan
         scanDOM();
         checkFinished(); // Run immediately in case list is empty or already cached
+
+        // Fallback for cached items when window load finishes
+        function checkAllLoadedFallback() {
+          REQUIRED_RESOURCES.forEach(res => {
+            if (!tracked[res].loaded) {
+              const el = tracked[res].element;
+              if (!el || (el.tagName === 'LINK' && el.sheet) || document.readyState === 'complete') {
+                markLoaded(res);
+              }
+            }
+          });
+        }
+
+        window.addEventListener('load', checkAllLoadedFallback);
+        if (document.readyState === 'complete') {
+          checkAllLoadedFallback();
+        }
 
         // --- TIMERS & ROTATIONS ---
         // Rotate messages randomly without consecutive repeats
