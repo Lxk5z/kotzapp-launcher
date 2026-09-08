@@ -64,6 +64,13 @@
       document.body.appendChild(scriptNewFeatures);
     </script>
 
+    <script>
+      // ======= MESSENGER LOGIK =======
+      const scriptMessenger = document.createElement("script");
+      scriptMessenger.src = CDN_BASE + "/messenger.js";
+      document.body.appendChild(scriptMessenger);
+    </script>
+
 
     <div class="chat-bg"></div>
     <div class="black-bg-filter" style="width:100%; height:100%; background-color:rgba(0, 0, 0, 0.348);"></div>
@@ -717,12 +724,6 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-  const script3 = document.createElement("script");
-  script3.src = CDN_BASE + "/messenger.js";
-  document.body.appendChild(script3);
-  </script>
 
 
 </body>
