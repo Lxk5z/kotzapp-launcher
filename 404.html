@@ -101,7 +101,9 @@
     <div id="update-ui" style="display: none;">
         <img src="" id="update-icon" class="update-icon">
         <h1>Update verfügbar!</h1>
-        <p>Eine neue Version von KotzApp ist da. Bitte lade es herunter, um die neuesten Features zu nutzen.</p>
+        <p>Eine neue Version von KotzApp ist da. Bitte lade sie herunter, um die neuesten Features zu nutzen.</p>
+        
+        <!-- Der Update Button -->
         <button id="update-btn" class="btn-90">
             <span class="liquid"></span>
             <svg class="button_download-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
@@ -110,6 +112,20 @@
                 <span class="text-hover">Aktualisieren</span>
             </span>
         </button>
+
+        <!-- NEU: Ladebalken Container (Zuerst unsichtbar) -->
+        <div id="update-progress-container" style="display: none; align-items: center; justify-content: center; gap: 15px; margin-top: 30px; width: 100%; max-width: 450px;">
+            <!-- Das Logo links -->
+            <img id="progress-logo" src="" alt="KotzApp Logo" style="width: 45px; height: 45px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 200, 83, 0.4);">
+            
+            <!-- Der Balken in der Mitte -->
+            <div style="flex-grow: 1; background: #1a1a1a; border-radius: 20px; height: 26px; border: 2px solid #00C853; overflow: hidden; position: relative; box-shadow: inset 0 0 5px rgba(0,0,0,0.5);">
+                <div id="update-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #0d8f0a, #32ff2e); transition: width 0.3s ease; box-shadow: 0 0 10px rgba(50, 255, 46, 0.6);"></div>
+            </div>
+            
+            <!-- Die Prozente rechts -->
+            <span id="update-progress-text" style="font-family: 'Play', sans-serif; font-size: 1.3rem; font-weight: bold; color: #32ff2e; min-width: 55px; text-align: right; text-shadow: 0 0 5px rgba(50, 255, 46, 0.5);">0%</span>
+        </div>
     </div>
 
 
@@ -518,7 +534,7 @@
     <style>
 
         .update-icon {
-            width: 60vw;
+            width: clamp(128px, 16vw, 256px);
             height: auto;
             margin-bottom: 5px;
         }
@@ -711,59 +727,129 @@
 }
         
     </style>
-
-    <script>
- // Normales Registrieren beim Start
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-    .then((reg) => {
-        console.log('Service Worker registriert! 👍');
-        
-        // WICHTIG: Falls ein neuer SW wartet, direkt Bescheid sagen
-        if (reg.waiting) {
-            reg.waiting.postMessage({ action: 'skipWaiting' });
+<script>
+        // -----------------------------------------------------------
+        // 1. SERVICE WORKER REGISTRIERUNG
+        // -----------------------------------------------------------
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+            .then((reg) => {
+                console.log('Service Worker registriert! 👍');
+                if (reg.waiting) {
+                    reg.waiting.postMessage({ action: 'skipWaiting' });
+                }
+            });
         }
-    });
-}
 
-// Event-Listener für deinen "Jetzt aktualisieren"-Button
-document.getElementById('update-btn').addEventListener('click', () => {
-    if ('serviceWorker' in navigator) {
-        console.log('Erzwinge Neuinstallation aller Quellen... 🔄');
+        // -----------------------------------------------------------
+        // 2. UPDATE-LOGIK & PROGRESS-BAR (Inkl. iPad/Touch-Protection)
+        // -----------------------------------------------------------
+        let isUpdating = false;
+        let progressInterval = null;
+        let redirected = false;
 
-        navigator.serviceWorker.getRegistration().then((registration) => {
-            if (registration) {
-                // Das zwingt den Browser, die sw.js neu vom Server zu ziehen!
-                registration.update().then(() => {
-                    console.log('Update-Check durchgeführt!');
-                    
-                    // Wir schicken die Nachricht an den aktuell installierenden oder wartenden Worker
-                    const worker = registration.installing || registration.waiting || registration.active;
-                    if (worker) {
-                        // Wir senden ein Signal, dass ALLES gelöscht werden soll
-                        worker.postMessage({ action: 'FORCE_HARD_RESET' });
+        const updateBtn = document.getElementById('update-btn');
+
+        if (updateBtn) {
+            // 'click' reagiert auf allen Touch-Geräten (iPad, iPhone, Android) & Desktop perfekt
+            updateBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (isUpdating) return; // Verhindert Doppel-Klicks/Doppel-Touches auf iPads
+                isUpdating = true;
+
+                startUpdateProcess();
+            });
+        }
+
+        function startUpdateProcess() {
+            const btn = document.getElementById('update-btn');
+            const progressContainer = document.getElementById('update-progress-container');
+            const progressBar = document.getElementById('update-progress-bar');
+            const progressText = document.getElementById('update-progress-text');
+            const progressLogo = document.getElementById('progress-logo');
+
+            // 1. Button ausblenden & Ladebalken anzeigen
+            if (btn) btn.style.display = 'none';
+            if (progressContainer) progressContainer.style.display = 'flex';
+
+            // 2. Logo dynamisch aus dem CDN setzen
+            if (progressLogo) {
+                progressLogo.src = CDN_BASE + "/images/logo-clean.png";
+            }
+
+            // 3. Organische Lade-Animation starten
+            let progress = 0;
+            progressInterval = setInterval(() => {
+                progress += Math.random() * 8 + 4;
+                if (progress >= 90) progress = 90; // Bei 90% halten, bis der SW fertig meldet
+
+                if (progressBar) progressBar.style.width = Math.floor(progress) + '%';
+                if (progressText) progressText.innerText = Math.floor(progress) + '%';
+            }, 180);
+
+            // 4. Signal an den Service Worker senden (Hard Reset)
+            if ('serviceWorker' in navigator) {
+                console.log('Erzwinge Neuinstallation aller Quellen... 🔄');
+
+                navigator.serviceWorker.getRegistration().then((registration) => {
+                    if (registration) {
+                        registration.update().then(() => {
+                            console.log('Update-Check durchgeführt!');
+                            const worker = registration.installing || registration.waiting || registration.active;
+                            if (worker) {
+                                worker.postMessage({ action: 'FORCE_HARD_RESET' });
+                            } else {
+                                finishAndRedirect();
+                            }
+                        }).catch(() => finishAndRedirect());
+                    } else {
+                        console.log('Kein SW registriert, registriere neu...');
+                        navigator.serviceWorker.register('/sw.js').then(() => finishAndRedirect());
                     }
+                }).catch((error) => {
+                    console.error('Fehler beim Hard-Reset:', error);
+                    finishAndRedirect();
                 });
             } else {
-                console.log('Kein Service Worker gefunden. Registriere neu...');
-                navigator.serviceWorker.register('/sw.js');
+                finishAndRedirect();
             }
-        }).catch((error) => {
-            console.error('Fehler beim Hard-Reset:', error);
-        });
-    } else {
-        alert('Dein Browser unterstützt keine Service Worker! 😢');
-    }
-});
 
-// Wenn der neue Service Worker die Kontrolle übernimmt -> Seite neu laden!
-navigator.serviceWorker.addEventListener('controllerchange', () => {
-    console.log('Neuer Service Worker ist aktiv! Lade Seite neu... ⚡');
-    window.location.reload();
-});
+            // 5. Sichere Fallback-Weiterleitung (falls der SW mal nicht antwortet)
+            setTimeout(() => {
+                finishAndRedirect();
+            }, 3500);
+        }
 
+        // Funktion zum sauberen Beenden des Ladebalkens & Weiterleiten
+        function finishAndRedirect() {
+            if (redirected) return;
+            redirected = true;
 
+            if (progressInterval) clearInterval(progressInterval);
 
+            const progressBar = document.getElementById('update-progress-bar');
+            const progressText = document.getElementById('update-progress-text');
+
+            if (progressBar) progressBar.style.width = '100%';
+            if (progressText) progressText.innerText = '100%';
+
+            // Kurze Pause bei 100%, damit der User das Feedback sieht, dann direkt ab zur index.html!
+            setTimeout(() => {
+                window.location.replace('/index.html');
+            }, 400);
+        }
+
+        // Wenn der neue Service Worker die Kontrolle übernimmt -> Ladebalken auf 100% und weiterleiten!
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                console.log('Neuer Service Worker ist aktiv! Ladebalken abschließen... ⚡');
+                finishAndRedirect();
+            });
+        }
+
+        // -----------------------------------------------------------
+        // 3. UI & ASSET INITIALISIERUNG
+        // -----------------------------------------------------------
         const urlParams = new URLSearchParams(window.location.search);
         const isUpdate = urlParams.has("new_update");
 
